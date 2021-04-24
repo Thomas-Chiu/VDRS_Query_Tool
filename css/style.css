@@ -1,0 +1,13 @@
+#nav_menu .nav-item {
+  margin-right: 2rem;
+  font-size: 1.25rem;
+}
+
+.container {
+  margin-top: 1rem ;
+  max-width: 100% ;
+}
+
+.row {
+  padding: .5rem 1rem;
+}
