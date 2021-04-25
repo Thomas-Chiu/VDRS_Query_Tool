@@ -1,20 +1,24 @@
-<div class="container bg-warning">
-  <div class="row">
-    <div class="col-md-3">
-      <h6>BUS ID</h6>
-      <input type="text" placeholder="車牌號碼">
+<form action="../index.php" method="GET">
+  <div class="container bg-dark text-white-50">
+    <div class="row">
+      <div class="col-md-3">
+        <h6>BUS ID</h6>
+        <input type="text" name="busId" placeholder="車牌號碼">
+      </div>
+      <div class="col">
+        <h6>起始時間</h6>
+        <input id="startDate" name="startDate" type="date">
+        <input id="startTime" name="startTime" type="time" step="1" value=00:00:00>
+      </div>
+      <div class="col">
+        <h6>結束時間</h6>
+        <input id="endDate" name="endDate" type="date">
+        <input id="endTime" name="endTime" type="time" step="1" value=23:59:59>
+      </div>
+      <div class="col">
+        <input type="submit">
+        <input type="reset">
+      </div>
     </div>
-    <div class="col">
-      <h6>起始時間</h6>
-      <input id="startDate" type="date">
-      <input id="startTime" type="time" value=00:00:00>
-    </div>
-    <div class="col">
-      <h6>結束時間</h6>
-      <input id="endDate" type="date">
-      <input id="endTime" type="time" value=23:59:59>
-    </div>
-
-
   </div>
-</div>
+</form>

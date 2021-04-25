@@ -3,8 +3,11 @@
   font-size: 1.25rem;
 }
 
+.navbar-brand {
+  margin: 0 0 0 0.75rem;
+}
+
 .container {
-  margin-top: 1rem ;
   max-width: 100% ;
 }
 
