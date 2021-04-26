@@ -34,12 +34,8 @@ class Log
   public function getLog()
   {
     // create query
-    // $query = 'SELECT * FROM' . $this->table . $_GET["busId"] . '
-    //           WHERE date_time BETWEEN ' . $_GET["startDate"]  . $_GET["startTime"] . '
-    //           AND' . $_GET["endDate"]  . $_GET["endTime"] . '
-    //           ORDER BY date_time DESC';
-
-    $query = 'SELECT * FROM `vdrs`.`f_log_data_js2-001` ORDER BY `date_time` DESC LIMIT 0, 1000';
+    // $query = 'SELECT * FROM `vdrs.f_log_data_js2-001` ORDER BY `date_time` DESC LIMIT 0, 10';
+    $query = 'SELECT * FROM ' . '`vdrs`.`' . $this->table . $_POST["busId"] . '` WHERE `date_time` BETWEEN ' . $_POST["startDate"]  . $_POST["startTime"] . 'AND ' . $_POST["endDate"]  . $_POST["endTime"]  . 'ORDER BY `date_time` DESC LIMIT 0, 50';
 
     // prepare statement
     $stmt = $this->conn->prepare($query);
