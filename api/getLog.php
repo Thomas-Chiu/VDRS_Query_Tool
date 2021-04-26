@@ -6,16 +6,12 @@ include_once "../models/log.php";
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// var_dump($_POST);
-// exit();
-
 // instantinte db & connect
 $database = new Database();
 $db = $database->connect();
 
 // instantiate log object
 $log = new Log($db);
-
 
 // query
 $result = $log->getLog();

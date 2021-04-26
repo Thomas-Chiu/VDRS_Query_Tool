@@ -3,7 +3,7 @@ class Log
 {
   // db stuff
   private $conn;
-  private $table = 'f_log_data_';
+  private $table = "f_log_data_";
 
   // log properties
   public $busId;
@@ -35,7 +35,8 @@ class Log
   {
     // create query
     // $query = 'SELECT * FROM `vdrs.f_log_data_js2-001` ORDER BY `date_time` DESC LIMIT 0, 10';
-    $query = 'SELECT * FROM ' . '`vdrs`.`' . $this->table . $_POST["busId"] . '` WHERE `date_time` BETWEEN ' . $_POST["startDate"]  . $_POST["startTime"] . 'AND ' . $_POST["endDate"]  . $_POST["endTime"]  . 'ORDER BY `date_time` DESC LIMIT 0, 50';
+    // $query = 'SELECT * FROM' .  ' `vdrs`.`' . $this->table . $_POST["busId"] . '` WHERE `date_time` BETWEEN ' . $_POST["startDate"]  . $_POST["startTime"]  . 'AND ' . $_POST["endDate"]  . $_POST["endTime"] . 'ORDER BY `date_time` DESC LIMIT 0, 50';
+    $query = "SELECT * FROM `vdrs`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
 
     // prepare statement
     $stmt = $this->conn->prepare($query);

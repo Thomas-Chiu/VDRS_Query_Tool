@@ -1,7 +1,6 @@
 <table class="table table-sm table-striped table-bordered table-hover">
   <thead class="thead-light text-center">
     <tr>
-      <!-- <th scope="col">id</th> -->
       <th scope="col">BUS ID</th>
       <th scope="col">IMEI</th>
       <th scope="col">IMSI</th>
@@ -20,9 +19,7 @@
       <th scope="col">IO</th>
     </tr>
   </thead>
-  <tbody class="text-center">
-    <tr class="log-row">
-    </tr>
+  <tbody class="text-center log-table">
 
   </tbody>
 </table>
