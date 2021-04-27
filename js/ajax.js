@@ -55,17 +55,17 @@ $(function () {
           console.log(err.status + err.responseText);
         },
       });
-
       // reset list-table
       $(".list-table tr").remove();
-
+      $("#data_table_head, #chk_table_head").hide();
+      $("#log_table_head").show();
       // create list-table
       for (let d of getData) {
         let count = 0;
         $(".list-table").append(`
         <tr class="list-row-${count}">
           <td class="list-col">${d.imei}</td>
-          <td class="list-col">${d.busId}</td>
+          <td class="list-col">${d.bus_id}</td>
           <td class="list-col">${d.imsi}</td>
           <td class="list-col">${d.driver_id}</td>
           <td class="list-col">${d.date_time}</td>
@@ -79,9 +79,9 @@ $(function () {
           <td class="list-col">${d.direction}</td>
           <td class="list-col">${d.speed}</td>
           <td class="list-col">${d.rpm}</td>
-          <td class="list-col">${d.gpsSpeed}</td>
+          <td class="list-col">${d.gps_speed}</td>
           <td class="list-col">${d.io}</td>
-          <td class="list-col">${d.deviceStatus}</td>
+          <td class="list-col">${d.device_status}</td>
         </tr>
         `);
         count++;
@@ -104,17 +104,17 @@ $(function () {
           console.log(err.status + err.responseText);
         },
       });
-
       // reset list-table
       $(".list-table tr").remove();
-
+      $("#log_table_head, #chk_table_head").hide();
+      $("#data_table_head").show();
       // create list-table
       for (let d of getData) {
         let count = 0;
         $(".list-table").append(`
         <tr class="list-row-${count}">
           <td class="list-col">${d.imei}</td>
-          <td class="list-col">${d.busId}</td>
+          <td class="list-col">${d.bus_id}</td>
           <td class="list-col">${d.imsi}</td>
           <td class="list-col">${d.date_time}</td>
           <td class="list-col">${d.insert_time}</td>
@@ -129,8 +129,57 @@ $(function () {
           <td class="list-col">${d.csq}</td>
           <td class="list-col">${d.gps}</td>
           <td class="list-col">${d.io}</td>
-          <td class="list-col">${d.abnormalCode}</td>
-          <td class="list-col">${d.abnormalContent}</td>
+          <td class="list-col">${d.abnormal_code}</td>
+          <td class="list-col">${d.abnormal_content}</td>
+        </tr>
+        `);
+        count++;
+      }
+    }
+
+    function chkAjax() {
+      // jq ajax
+      $.ajax({
+        async: false,
+        type: "post",
+        url: "/api/getChk.php",
+        data: reqData,
+        dataType: "json",
+        success: function (res) {
+          getData = res;
+          console.log(res[0]);
+        },
+        error: function (err) {
+          console.log(err.status + err.responseText);
+        },
+      });
+      // reset list-table
+      $(".list-table tr").remove();
+      $("#log_table_head, #data_table_head").hide();
+      $("#chk_table_head").show();
+      // create list-table
+      for (let d of getData) {
+        let count = 0;
+        $(".list-table").append(`
+        <tr class="list-row-${count}">
+          <td class="list-col">${d.imei}</td>
+          <td class="list-col">${d.bus_id}</td>
+          <td class="list-col">${d.imsi}</td>
+          <td class="list-col">${d.insert_time}</td>
+          <td class="list-col">${d.device_type}</td>
+          <td class="list-col">${d.fw_sign}</td>
+          <td class="list-col">${d.csq}</td>
+          <td class="list-col">${d.gps_signal}</td>
+          <td class="list-col">${d.acc}</td>
+          <td class="list-col">${d.internet}</td>
+          <td class="list-col">${d.ip_port}</td>
+          <td class="list-col">${d.dns_port}</td>
+          <td class="list-col">${d.send_time}</td>
+          <td class="list-col">${d.standby_send_time}</td>
+          <td class="list-col">${d.speed_trigger}</td>
+          <td class="list-col">${d.speed_gain}</td>
+          <td class="list-col">${d.rpm_trigger}</td>
+          <td class="list-col">${d.rpm_div}</td>
         </tr>
         `);
         count++;

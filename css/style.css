@@ -29,6 +29,12 @@ input[type="radio"]:checked + label:before {
 }
 
 /* thead hide */
-#data_table_head, #chk_table_head {
+#log_table_head, 
+#data_table_head, 
+#chk_table_head {
   display: none;
+}
+
+.table-hover tbody tr:hover td {
+  background: #ffc107;
 }

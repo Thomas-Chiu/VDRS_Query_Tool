@@ -25,10 +25,9 @@ if ($count > 0) {
 
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     // json to object
-    // $log_data = json_decode($row["log_data"]);
     $data_item = array(
       "imei" => $row["imei"],
-      "busId" => $row["serial"],
+      "bus_id" => $row["serial"],
       "imsi" => $row["imsi"],
       "date_time" => $row["date_time"],
       "insert_time" => $row["insert_time"],
@@ -42,9 +41,9 @@ if ($count > 0) {
       "driver_id" => $row["driver_id"],
       "csq" => $row["csq"],
       "gps" => $row["gps"],
-      "io" => $row["io"],
-      "abnormalCode" => $row["abnormalCode"],
-      "abnormalContent" => $row["abnormalContent"],
+      "io" => $row["io_signal"],
+      "abnormal_code" => $row["abnormal_code"],
+      "abnormal_content" => $row["abnormal_content"]
     );
     // push to data
     array_push($datas_arr, $data_item);

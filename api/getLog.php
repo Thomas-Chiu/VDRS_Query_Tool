@@ -27,15 +27,15 @@ if ($count > 0) {
     // json to object
     $log_data = json_decode($row["log_data"]);
     $log_item = array(
-      "busId" => $row["serial"],
       "imei" => $row["imei"],
+      "bus_id" => $row["serial"],
       "imsi" => $row["imsi"],
       "driver_id" => $row["driver_id"],
       "date_time" => $row["date_time"],
       "insert_time" => $row["insert_time"],
       "gps_signal" => $row["gps_signal"],
-      "gps" => $row["gps"],
       "csq" => $row["csq"],
+      "gps" => $row["gps"],
       // "mileage" => trim($row["mile"], 0),
       "mileage" => $row["mile"],
       "longitude" => $log_data[0]->longitude,
@@ -43,9 +43,9 @@ if ($count > 0) {
       "direction" => $log_data[0]->direction,
       "speed" => $log_data[0]->speed,
       "rpm" => $log_data[0]->rpm,
-      "gpsSpeed" => $log_data[0]->gpsSpeed,
+      "gps_speed" => $log_data[0]->gpsSpeed,
       "io" => $log_data[0]->io,
-      "deviceStatus" => $log_data[0]->deviceStatus,
+      "device_status" => $log_data[0]->deviceStatus
     );
     // push to data
     array_push($logs_arr, $log_item);

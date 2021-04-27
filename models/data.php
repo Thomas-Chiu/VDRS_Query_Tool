@@ -3,7 +3,7 @@ class Data
 {
   // db stuff
   private $conn;
-  private $table = "f_anbormal_data_2";
+  private $table = "f_abnormal_data_2";
 
   // log properties
   public $imei;
@@ -35,7 +35,7 @@ class Data
   public function getData()
   {
     // create query
-    $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = `$_POST[busId]` AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
 
     // prepare statement
     $stmt = $this->conn->prepare($query);
