@@ -18,3 +18,17 @@
 .btn {
   padding: 0 0.5rem;
 }
+
+/* appearance for checked radiobutton */
+input[type="radio"]:checked + label:before {
+  background-color: #ffc107 !important;
+}
+
+.custom-control-label::before {
+  border: none;
+}
+
+/* thead hide */
+#data_table_head, #chk_table_head {
+  display: none;
+}

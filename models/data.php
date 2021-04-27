@@ -1,30 +1,29 @@
 <?php
-class Log
+class Data
 {
   // db stuff
   private $conn;
-  private $table = "f_log_data_";
+  private $table = "f_anbormal_data_2";
 
   // log properties
   public $imei;
   public $busId;
   public $imsi;
-  public $driverId;
   public $dateTime;
   public $insertTime;
   public $gpsSignal;
-  public $csq;
-  public $gps;
-  public $milage;
   public $longitude;
   public $latiitude;
   public $direction;
   public $speed;
+  public $milage;
   public $rpm;
-  public $gpsSpeed;
+  public $driverId;
+  public $csq;
+  public $gps;
   public $io;
-  public $deviceStatus;
-
+  public $abnormalCode;
+  public $abnormalContent;
 
   // constructor with db 
   public function __construct($db)
@@ -32,11 +31,11 @@ class Log
     $this->conn = $db;
   }
 
-  // get log
-  public function getLog()
+  // get data
+  public function getData()
   {
     // create query
-    $query = "SELECT * FROM `vdrs`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = `$_POST[busId]` AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
 
     // prepare statement
     $stmt = $this->conn->prepare($query);

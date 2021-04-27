@@ -1,6 +1,6 @@
 <?php
 include_once "../dbconfig.php";
-include_once "../models/log.php";
+include_once "../models/data.php";
 
 // headers
 header('Access-Control-Allow-Origin: *');
@@ -11,47 +11,46 @@ $database = new Database();
 $db = $database->connect();
 
 // instantiate log object
-$log = new Log($db);
+$data = new Data($db);
 
 // query
-$result = $log->getLog();
+$result = $data->getData();
 
 // get row count
 $count = $result->rowCount();
 
 // check row count
 if ($count > 0) {
-  $logs_arr = array();
+  $datas_arr = array();
 
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     // json to object
-    $log_data = json_decode($row["log_data"]);
-    $log_item = array(
-      "busId" => $row["serial"],
+    // $log_data = json_decode($row["log_data"]);
+    $data_item = array(
       "imei" => $row["imei"],
+      "busId" => $row["serial"],
       "imsi" => $row["imsi"],
-      "driver_id" => $row["driver_id"],
       "date_time" => $row["date_time"],
       "insert_time" => $row["insert_time"],
       "gps_signal" => $row["gps_signal"],
-      "gps" => $row["gps"],
-      "csq" => $row["csq"],
-      // "mileage" => trim($row["mile"], 0),
+      "longitude" => $row["longitude"],
+      "latitude" => $row["latitude"],
+      "direction" => $row["direction"],
+      "speed" => $row["speed"],
       "mileage" => $row["mile"],
-      "longitude" => $log_data[0]->longitude,
-      "latitude" => $log_data[0]->latitude,
-      "direction" => $log_data[0]->direction,
-      "speed" => $log_data[0]->speed,
-      "rpm" => $log_data[0]->rpm,
-      "gpsSpeed" => $log_data[0]->gpsSpeed,
-      "io" => $log_data[0]->io,
-      "deviceStatus" => $log_data[0]->deviceStatus,
+      "rpm" => $row["rpm"],
+      "driver_id" => $row["driver_id"],
+      "csq" => $row["csq"],
+      "gps" => $row["gps"],
+      "io" => $row["io"],
+      "abnormalCode" => $row["abnormalCode"],
+      "abnormalContent" => $row["abnormalContent"],
     );
     // push to data
-    array_push($logs_arr, $log_item);
+    array_push($datas_arr, $data_item);
   }
   // output json
-  echo json_encode($logs_arr, JSON_PRETTY_PRINT);
+  echo json_encode($datas_arr, JSON_PRETTY_PRINT);
 } else {
   // no log
   echo json_encode(
