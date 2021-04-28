@@ -3,6 +3,7 @@ class Chk
 {
   // db stuff
   private $conn;
+  private $devEnv;
   private $table = "f_chk_data_2";
 
   // log properties
@@ -26,16 +27,21 @@ class Chk
   public $rpmDiv;
 
   // constructor with db 
-  public function __construct($db)
+  public function __construct($db, $devEnv)
   {
     $this->conn = $db;
+    $this->devEnv = $devEnv;
   }
 
   // get data
   public function getChk()
   {
     // create query
-    $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time` DESC";
+    if ($this->devEnv) {
+      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time` DESC";
+    } else {
+      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time` DESC";
+    }
 
     // prepare statement
     $stmt = $this->conn->prepare($query);

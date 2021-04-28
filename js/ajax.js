@@ -1,6 +1,10 @@
 $(function () {
   $("#btn_submit").click(function (e) {
     e.preventDefault();
+    $("#btn_submit").attr("disabled", true);
+    $(".loader-inner").css("visibility", "visible");
+    $(".loader-inner").loaders();
+
     let getData = [];
     let reqData = {};
 
@@ -21,6 +25,7 @@ $(function () {
       !reqData.queryType
     ) {
       alert("請輸入 BUS ID、起始時間和結束時間");
+      return;
     }
     // thead validation
     if (reqData.queryType == "data") {
@@ -185,5 +190,8 @@ $(function () {
         count++;
       }
     }
+
+    $("#btn_submit").attr("disabled", false);
+    $(".loader-inner").hide();
   });
 });

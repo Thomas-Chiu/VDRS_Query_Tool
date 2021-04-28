@@ -38,3 +38,11 @@ input[type="radio"]:checked + label:before {
 .table-hover tbody tr:hover td {
   background: #ffc107;
 }
+
+/* loader */
+.loader-inner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+  visibility: hidden;
+}

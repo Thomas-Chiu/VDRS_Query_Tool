@@ -9,9 +9,10 @@ header('Content-Type: application/json');
 // instantinte db & connect
 $database = new Database();
 $db = $database->connect();
+$devEnv = $database->environment();
 
 // instantiate log object
-$data = new Data($db);
+$data = new Data($db, $devEnv);
 
 // query
 $result = $data->getData();

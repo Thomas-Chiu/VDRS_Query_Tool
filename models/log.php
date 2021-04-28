@@ -3,6 +3,7 @@ class Log
 {
   // db stuff
   private $conn;
+  private $devEnv;
   private $table = "f_log_data_";
 
   // log properties
@@ -27,16 +28,21 @@ class Log
 
 
   // constructor with db 
-  public function __construct($db)
+  public function __construct($db, $devEnv)
   {
     $this->conn = $db;
+    $this->devEnv = $devEnv;
   }
 
   // get log
   public function getLog()
   {
     // create query
-    $query = "SELECT * FROM `vdrs`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    if ($this->devEnv) {
+      $query = "SELECT * FROM `vdrs`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    } else {
+      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    }
 
     // prepare statement
     $stmt = $this->conn->prepare($query);

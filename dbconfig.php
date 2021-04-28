@@ -2,10 +2,15 @@
 class Database
 {
   // db params
-  private $host = "localhost";
-  private $dbname = "vdrs";
-  private $user = "thomas";
-  private $pass = "dppss891234";
+  private $host = "60.251.157.47";
+  // private $host = "localhost";
+  private $dbname = "vdrs_jasslin";
+  // private $dbname = "vdrs";
+  private $user = "vdrs_jasslin";
+  // private $user = "thomas";
+  private $pass = "13091876";
+  // private $pass = "dppss891234";
+  private $devEnv = false;
   private $conn;
 
   // db connect
@@ -22,6 +27,12 @@ class Database
       echo "資料庫連線失敗 $e->getMessage()";
     }
     return $this->conn;
+  }
+
+  // dev env
+  public function environment()
+  {
+    return $this->devEnv;
   }
 }
 

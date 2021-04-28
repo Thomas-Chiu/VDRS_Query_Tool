@@ -1,3 +1,13 @@
+<?php
+function today()
+{
+  $year = date("Y");
+  $month = date("m");
+  $day = date("d");
+  return $year . "-" . $month . "-" . $day;
+}
+?>
+
 <form action="" method="post">
   <div class="container bg-dark text-white-50">
     <div class="row">
@@ -7,12 +17,12 @@
       </div>
       <div class="col">
         <h6>起始時間</h6>
-        <input id="startDate" name="startDate" type="date" value="2021-01-13" required>
+        <input id="startDate" name="startDate" type="date" value="<?php echo today() ?>" required>
         <input id="startTime" name="startTime" type="time" step="1" value=00:00:00 required>
       </div>
       <div class="col">
         <h6>結束時間</h6>
-        <input id="endDate" name="endDate" type="date" value="2021-01-13" required>
+        <input id="endDate" name="endDate" type="date" value="<?php echo today() ?>" required>
         <input id="endTime" name="endTime" type="time" step="1" value=23:59:59 required>
       </div>
       <div class="col">
