@@ -18,9 +18,7 @@ $(function () {
   });
 
   $("#btn_submit").click(function (e) {
-    $("#btn_submit").attr("disabled", true);
     e.preventDefault();
-
     let getData = [];
     let reqData = {};
 
@@ -42,10 +40,9 @@ $(function () {
     ) {
       alert("請輸入 BUS ID、起始時間和結束時間");
       return;
-    }
-    // thead validation
-    if (reqData.queryType == "data") {
-      $("data_table_head").show("slow");
+    } else {
+      // lock submit button
+      $("#btn_submit").attr("disabled", true);
     }
 
     switch (reqData.queryType) {
@@ -70,7 +67,7 @@ $(function () {
         dataType: "json",
         success: function (res) {
           getData = res;
-          console.log(res[0]);
+          console.log(getData[0]);
         },
         error: function (err) {
           alert("查無資料");
@@ -82,31 +79,35 @@ $(function () {
       $("#data_table_head, #chk_table_head").hide();
       $("#log_table_head").show();
       // create list-table
-      for (let d of getData) {
-        let count = 0;
-        $(".list-table").append(`
-        <tr class="list-row-${count}">
-          <td class="list-col">${d.imei}</td>
-          <td class="list-col">${d.bus_id}</td>
-          <td class="list-col">${d.imsi}</td>
-          <td class="list-col">${d.driver_id}</td>
-          <td class="list-col">${d.date_time}</td>
-          <td class="list-col">${d.insert_time}</td>
-          <td class="list-col">${d.gps_signal}</td>
-          <td class="list-col">${d.csq}</td>
-          <td class="list-col">${d.gps}</td>
-          <td class="list-col">${d.mileage}</td>
-          <td class="list-col">${d.longitude}</td>
-          <td class="list-col">${d.latitude}</td>
-          <td class="list-col">${d.direction}</td>
-          <td class="list-col">${d.speed}</td>
-          <td class="list-col">${d.rpm}</td>
-          <td class="list-col">${d.gps_speed}</td>
-          <td class="list-col">${d.io}</td>
-          <td class="list-col">${d.device_status}</td>
-        </tr>
-        `);
-        count++;
+      if (getData.status) {
+        alert(getData.message);
+      } else {
+        for (let d of getData) {
+          let count = 0;
+          $(".list-table").append(`
+          <tr class="list-row-${count}">
+            <td class="list-col">${d.imei}</td>
+            <td class="list-col">${d.bus_id}</td>
+            <td class="list-col">${d.imsi}</td>
+            <td class="list-col">${d.driver_id}</td>
+            <td class="list-col">${d.date_time}</td>
+            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${d.gps_signal}</td>
+            <td class="list-col">${d.csq}</td>
+            <td class="list-col">${d.gps}</td>
+            <td class="list-col">${d.mileage}</td>
+            <td class="list-col">${d.longitude}</td>
+            <td class="list-col">${d.latitude}</td>
+            <td class="list-col">${d.direction}</td>
+            <td class="list-col">${d.speed}</td>
+            <td class="list-col">${d.rpm}</td>
+            <td class="list-col">${d.gps_speed}</td>
+            <td class="list-col">${d.io}</td>
+            <td class="list-col">${d.device_status}</td>
+          </tr>
+          `);
+          count++;
+        }
       }
     }
 
@@ -131,31 +132,35 @@ $(function () {
       $("#log_table_head, #chk_table_head").hide();
       $("#data_table_head").show();
       // create list-table
-      for (let d of getData) {
-        let count = 0;
-        $(".list-table").append(`
-        <tr class="list-row-${count}">
-          <td class="list-col">${d.imei}</td>
-          <td class="list-col">${d.bus_id}</td>
-          <td class="list-col">${d.imsi}</td>
-          <td class="list-col">${d.date_time}</td>
-          <td class="list-col">${d.insert_time}</td>
-          <td class="list-col">${d.gps_signal}</td>
-          <td class="list-col">${d.longitude}</td>
-          <td class="list-col">${d.latitude}</td>
-          <td class="list-col">${d.direction}</td>
-          <td class="list-col">${d.speed}</td>
-          <td class="list-col">${d.mileage}</td>
-          <td class="list-col">${d.rpm}</td>
-          <td class="list-col">${d.driver_id}</td>
-          <td class="list-col">${d.csq}</td>
-          <td class="list-col">${d.gps}</td>
-          <td class="list-col">${d.io}</td>
-          <td class="list-col">${d.abnormal_code}</td>
-          <td class="list-col">${d.abnormal_content}</td>
-        </tr>
-        `);
-        count++;
+      if (getData.status) {
+        alert(getData.message);
+      } else {
+        for (let d of getData) {
+          let count = 0;
+          $(".list-table").append(`
+          <tr class="list-row-${count}">
+            <td class="list-col">${d.imei}</td>
+            <td class="list-col">${d.bus_id}</td>
+            <td class="list-col">${d.imsi}</td>
+            <td class="list-col">${d.date_time}</td>
+            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${d.gps_signal}</td>
+            <td class="list-col">${d.longitude}</td>
+            <td class="list-col">${d.latitude}</td>
+            <td class="list-col">${d.direction}</td>
+            <td class="list-col">${d.speed}</td>
+            <td class="list-col">${d.mileage}</td>
+            <td class="list-col">${d.rpm}</td>
+            <td class="list-col">${d.driver_id}</td>
+            <td class="list-col">${d.csq}</td>
+            <td class="list-col">${d.gps}</td>
+            <td class="list-col">${d.io}</td>
+            <td class="list-col">${d.abnormal_code}</td>
+            <td class="list-col">${d.abnormal_content}</td>
+          </tr>
+          `);
+          count++;
+        }
       }
     }
 
@@ -180,31 +185,35 @@ $(function () {
       $("#log_table_head, #data_table_head").hide();
       $("#chk_table_head").show();
       // create list-table
-      for (let d of getData) {
-        let count = 0;
-        $(".list-table").append(`
-        <tr class="list-row-${count}">
-          <td class="list-col">${d.imei}</td>
-          <td class="list-col">${d.bus_id}</td>
-          <td class="list-col">${d.imsi}</td>
-          <td class="list-col">${d.insert_time}</td>
-          <td class="list-col">${d.device_type}</td>
-          <td class="list-col">${d.fw_sign}</td>
-          <td class="list-col">${d.csq}</td>
-          <td class="list-col">${d.gps_signal}</td>
-          <td class="list-col">${d.acc}</td>
-          <td class="list-col">${d.internet}</td>
-          <td class="list-col">${d.ip_port}</td>
-          <td class="list-col">${d.dns_port}</td>
-          <td class="list-col">${d.send_time}</td>
-          <td class="list-col">${d.standby_send_time}</td>
-          <td class="list-col">${d.speed_trigger}</td>
-          <td class="list-col">${d.speed_gain}</td>
-          <td class="list-col">${d.rpm_trigger}</td>
-          <td class="list-col">${d.rpm_div}</td>
-        </tr>
-        `);
-        count++;
+      if (getData.status) {
+        alert(getData.message);
+      } else {
+        for (let d of getData) {
+          let count = 0;
+          $(".list-table").append(`
+          <tr class="list-row-${count}">
+            <td class="list-col">${d.imei}</td>
+            <td class="list-col">${d.bus_id}</td>
+            <td class="list-col">${d.imsi}</td>
+            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${d.device_type}</td>
+            <td class="list-col">${d.fw_sign}</td>
+            <td class="list-col">${d.csq}</td>
+            <td class="list-col">${d.gps_signal}</td>
+            <td class="list-col">${d.acc}</td>
+            <td class="list-col">${d.internet}</td>
+            <td class="list-col">${d.ip_port}</td>
+            <td class="list-col">${d.dns_port}</td>
+            <td class="list-col">${d.send_time}</td>
+            <td class="list-col">${d.standby_send_time}</td>
+            <td class="list-col">${d.speed_trigger}</td>
+            <td class="list-col">${d.speed_gain}</td>
+            <td class="list-col">${d.rpm_trigger}</td>
+            <td class="list-col">${d.rpm_div}</td>
+          </tr>
+          `);
+          count++;
+        }
       }
     }
 

@@ -54,6 +54,9 @@ if ($count > 0) {
 } else {
   // no log
   echo json_encode(
-    array("message" => "搜尋無資料")
+    array(
+      "status" => 404,
+      "message" => "搜尋無資料"
+    )
   );
 };
