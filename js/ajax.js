@@ -1,9 +1,25 @@
 $(function () {
+  // go top
+  $("#gotop").click(function () {
+    jQuery("html,body").animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
+
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 300) {
+      $("#gotop").fadeIn("fast").show();
+    } else {
+      $("#gotop").stop().fadeOut("fast");
+    }
+  });
+
   $("#btn_submit").click(function (e) {
-    e.preventDefault();
     $("#btn_submit").attr("disabled", true);
-    $(".loader-inner").css("visibility", "visible");
-    $(".loader-inner").loaders();
+    e.preventDefault();
 
     let getData = [];
     let reqData = {};
@@ -57,6 +73,7 @@ $(function () {
           console.log(res[0]);
         },
         error: function (err) {
+          alert("查無資料");
           console.log(err.status + err.responseText);
         },
       });
@@ -192,6 +209,6 @@ $(function () {
     }
 
     $("#btn_submit").attr("disabled", false);
-    $(".loader-inner").hide();
+    $(".loader").hide();
   });
 });
