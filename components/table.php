@@ -10,7 +10,7 @@
       <th scope="col">GPS</th>
       <th scope="col">CSQ</th>
       <th scope="col">衛星數</th>
-      <th scope="col">里程數</th>
+      <th scope="col">里程數 (m) </th>
       <th scope="col">經度</th>
       <th scope="col">緯度</th>
       <th scope="col">方向角</th>
@@ -34,7 +34,7 @@
       <th scope="col">緯度</th>
       <th scope="col">方向角</th>
       <th scope="col">車速</th>
-      <th scope="col">里程數</th>
+      <th scope="col">里程數 (m) </th>
       <th scope="col">轉速</th>
       <th scope="col">司機編號</th>
       <th scope="col">CSQ</th>

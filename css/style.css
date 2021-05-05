@@ -8,11 +8,11 @@
 }
 
 .container {
-  max-width: 100% ;
+  max-width: 100%;
 }
 
 .row {
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .btn {
@@ -29,8 +29,8 @@ input[type="radio"]:checked + label:before {
 }
 
 /* thead hide */
-#log_table_head, 
-#data_table_head, 
+#log_table_head,
+#data_table_head,
 #chk_table_head {
   display: none;
 }
@@ -41,9 +41,9 @@ input[type="radio"]:checked + label:before {
 
 /* loader */
 .loader {
-	position: absolute;
-	top: 50%;
-	left: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 /* go top */
@@ -54,8 +54,8 @@ input[type="radio"]:checked + label:before {
   bottom: 50px;
   padding: 5px 20px;
   font-size: 30px;
-  background: rgba(228, 211, 211, 0.36);
-  color: #FAFCFD;
+  background: rgba(255, 255, 255, 0.5);
+  color: #343a40;
   cursor: pointer;
   z-index: 1000;
   display: none;

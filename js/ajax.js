@@ -22,7 +22,7 @@ $(function () {
     let getData = [];
     let reqData = {};
 
-    reqData.busId = $("#busId").val();
+    reqData.busId = $("#busId").val().trim();
     reqData.startDate = $("#startDate").val();
     reqData.startTime = $("#startTime").val();
     reqData.endDate = $("#endDate").val();
@@ -67,7 +67,7 @@ $(function () {
         dataType: "json",
         success: function (res) {
           getData = res;
-          console.log(getData[0]);
+          console.log(getData);
         },
         error: function (err) {
           alert("查無資料");
