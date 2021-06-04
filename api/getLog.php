@@ -27,18 +27,21 @@ if ($count > 0) {
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     // json to object
     $log_data = json_decode($row["log_data"]);
+
+    // break down 30s log_data
     for ($i = 0; $i < 30; $i++) {
+
       $log_item = array(
         "imei" => $row["imei"],
         "bus_id" => $row["serial"],
         "imsi" => $row["imsi"],
         "driver_id" => $row["driver_id"],
-        "date_time" => $row["date_time"],
+        // "date_time" => $row["date_time"],
+        "date_time" => $i,
         "insert_time" => $row["insert_time"],
         "gps_signal" => $row["gps_signal"],
         "csq" => $row["csq"],
         "gps" => $row["gps"],
-        // "mileage" => trim($row["mile"], 0),
         "mileage" => $row["mile"],
         "longitude" => $log_data[$i]->longitude,
         "latitude" => $log_data[$i]->latitude,
@@ -49,9 +52,32 @@ if ($count > 0) {
         "io" => $log_data[$i]->io,
         "device_status" => $log_data[$i]->deviceStatus
       );
-      // push to data
       array_push($logs_arr, $log_item);
-    };
+    }
+
+    // $log_item = array(
+    //   "imei" => $row["imei"],
+    //   "bus_id" => $row["serial"],
+    //   "imsi" => $row["imsi"],
+    //   "driver_id" => $row["driver_id"],
+    //   "date_time" => $row["date_time"],
+    //   "insert_time" => $row["insert_time"],
+    //   "gps_signal" => $row["gps_signal"],
+    //   "csq" => $row["csq"],
+    //   "gps" => $row["gps"],
+    //   "mileage" => $row["mile"],
+    //   "longitude" => $log_data[0]->longitude,
+    //   "latitude" => $log_data[0]->latitude,
+    //   "direction" => $log_data[0]->direction,
+    //   "speed" => $log_data[0]->speed,
+    //   "rpm" => $log_data[0]->rpm,
+    //   "gps_speed" => $log_data[0]->gpsSpeed,
+    //   "io" => $log_data[0]->io,
+    //   "device_status" => $log_data[0]->deviceStatus
+    // );
+
+    // // push to data
+    // array_push($logs_arr, $log_item);
   }
   // output json
   echo json_encode($logs_arr, JSON_PRETTY_PRINT);
