@@ -58,6 +58,7 @@ $(function () {
     }
 
     function logAjax() {
+      let count = 0;
       // jq ajax
       $.ajax({
         async: false,
@@ -82,16 +83,26 @@ $(function () {
       if (getData.status) {
         alert(getData.message);
       } else {
+        let unixDateTimeArr = [];
+
         for (let d of getData) {
-          let count = 0;
+          const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
+          let ioArr = d.io.split(""); // split() 字串轉陣列
+          let unixDateTime = Date.parse(d.date_time); // UTC+8
+          let unixInsertTime = Date.parse(d.insert_time);
+          let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
+          let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
+
+          unixDateTimeArr.push(unixDateTime); // 比對 AB 點用
+
           $(".list-table").append(`
           <tr class="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
             <td class="list-col">${d.driver_id}</td>
-            <td class="list-col">${d.date_time}</td>
-            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${dateTime}</td>
+            <td class="list-col">${insertTime}</td>
             <td class="list-col">${d.gps_signal}</td>
             <td class="list-col">${d.csq}</td>
             <td class="list-col">${d.gps}</td>
@@ -106,12 +117,36 @@ $(function () {
             <td class="list-col">${d.device_status}</td>
           </tr>
           `);
+
+          console.log(unixDateTime - unixDateTimeArr[count - 1]);
+
+          // log function validation
+          if (d.gps_signal !== "A") {
+            // 定位失效
+            $(`.list-row-${count}`).css("background", "coral");
+          }
+          if (ioArr[0] === "0") {
+            // 熄火
+            $(`.list-row-${count}`).css("background", "gray");
+          }
+          if (insertTime - dateTime > 180000) {
+            // 補傳 3min
+            $(`.list-row-${count}`).css("background", "lightblue");
+          }
+          if (unixDateTime - unixDateTimeArr[count - 1] > 180000) {
+            // AB 點 3min
+            $(`.list-row-${count}`).css("background", "lightgreen");
+            console.log(unixDateTime - unixDateTimeArr[count - 1]);
+          }
+
           count++;
         }
+        // console.log(unixDateTimeArr);
       }
     }
 
     function dataAjax() {
+      let count = 0;
       // jq ajax
       $.ajax({
         async: false,
@@ -136,7 +171,6 @@ $(function () {
         alert(getData.message);
       } else {
         for (let d of getData) {
-          let count = 0;
           $(".list-table").append(`
           <tr class="list-row-${count}">
             <td class="list-col">${d.imei}</td>
@@ -165,6 +199,7 @@ $(function () {
     }
 
     function chkAjax() {
+      let count = 0;
       // jq ajax
       $.ajax({
         async: false,
@@ -189,7 +224,6 @@ $(function () {
         alert(getData.message);
       } else {
         for (let d of getData) {
-          let count = 0;
           $(".list-table").append(`
           <tr class="list-row-${count}">
             <td class="list-col">${d.imei}</td>
