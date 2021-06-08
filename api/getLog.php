@@ -29,6 +29,9 @@ if ($count > 0) {
     $log_data = json_decode($row["log_data"]);
     // mileage unit M to KM
     $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
+    // lon & lat float unit
+    $longitude =  $log_data[0]->longitude / 1000000;
+    $latitude =  $log_data[0]->latitude / 1000000;
     // JAS106 condition
     if (
       $row["imei"] == null ||
@@ -47,8 +50,8 @@ if ($count > 0) {
         "csq" => $row["csq"],
         "gps" => $row["gps"],
         "mileage" => $mileage,
-        "longitude" => $log_data[0]->longitude,
-        "latitude" => $log_data[0]->latitude,
+        "longitude" => $longitude,
+        "latitude" => $latitude,
         "direction" => $log_data[0]->direction,
         "speed" => $log_data[0]->speed,
         "rpm" => $log_data[0]->rpm,
@@ -96,8 +99,8 @@ if ($count > 0) {
         "csq" => $row["csq"],
         "gps" => $row["gps"],
         "mileage" => $mileage,
-        "longitude" => $log_data[0]->longitude,
-        "latitude" => $log_data[0]->latitude,
+        "longitude" => $longitude,
+        "latitude" => $latitude,
         "direction" => $log_data[0]->direction,
         "speed" => $log_data[0]->speed,
         "rpm" => $log_data[0]->rpm,

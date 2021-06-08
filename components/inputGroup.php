@@ -13,18 +13,19 @@ function today()
     <div class="row">
       <div class="col-md-3">
         <h6>BUS ID</h6>
-        <input id="busId" type="text" name="busId" placeholder="車牌號碼" required>
+        <!-- <input id="busId" type="text" name="busId" placeholder="車牌號碼" required> -->
+        <input id="busId" type="text" name="busId" value="BUS-208" required>
       </div>
       <div class="col">
         <h6>起始時間</h6>
-        <!-- <input id="startDate" name="startDate" type="date" value="<?php echo today() ?>" required> -->
-        <input id="startDate" name="startDate" type="date" value="2021-04-25" required>
+        <input id="startDate" name="startDate" type="date" value="<?php echo today() ?>" required>
+        <!-- <input id="startDate" name="startDate" type="date" value="2021-04-25" required> -->
         <input id="startTime" name="startTime" type="time" step="1" value=00:00:00 required>
       </div>
       <div class="col">
         <h6>結束時間</h6>
-        <!-- <input id="endDate" name="endDate" type="date" value="<?php echo today() ?>" required> -->
-        <input id="endDate" name="endDate" type="date" value="2021-04-25" required>
+        <input id="endDate" name="endDate" type="date" value="<?php echo today() ?>" required>
+        <!-- <input id="endDate" name="endDate" type="date" value="2021-04-25" required> -->
         <input id="endTime" name="endTime" type="time" step="1" value=23:59:59 required>
       </div>
       <div class="col">
