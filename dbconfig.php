@@ -2,7 +2,7 @@
 class Database
 {
   // db params
-  // private $host = "60.251.157.47";
+  // private $host = "60.251.157.50";
   private $host = "localhost";
   // private $dbname = "vdrs_jasslin";
   private $dbname = "vdrs_v2";
@@ -10,6 +10,8 @@ class Database
   private $user = "thomas";
   // private $pass = "13091876";
   private $pass = "dppss891234";
+  // private $port = 3307;
+  private $port = 3306;
   private $devEnv = true;
   private $conn;
 
@@ -20,7 +22,7 @@ class Database
 
     try {
       // new PDO('mysql:host=localhost;dbname=test', $user, $pass);
-      $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
+      $this->conn = new PDO("mysql:host=$this->host;port=$this->port;dbname=$this->dbname", $this->user, $this->pass);
       $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       // echo "Connection Success";
     } catch (PDOException $e) {
