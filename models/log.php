@@ -52,4 +52,23 @@ class Log
 
     return $stmt;
   }
+
+  // get 30s log
+  public function get30sLog()
+  {
+    // create query
+    if ($this->devEnv) {
+      $query = "SELECT * FROM `vdrs_v2`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    } else {
+      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table$_POST[busId]` WHERE `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+    }
+
+    // prepare statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+  }
 }

@@ -11,6 +11,7 @@ $(function () {
 
   $("#btn_submit").click(function (e) {
     e.preventDefault();
+    const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
     let getData = [];
     let reqData = {};
     let startTimeStr = $("#startDate").val() + "T" + $("#startTime").val();
@@ -89,8 +90,7 @@ $(function () {
         let unixDateTimeArr = [];
 
         for (let d of getData) {
-          const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
-          let ioArr = d.io.split(""); // split() 字串轉陣列
+          let ioArr = d.io.split("");
           let unixDateTime = new Date(d.date_time).getTime(); // UTC+8
           let unixInsertTime = new Date(d.insert_time).getTime();
           let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
@@ -255,5 +255,11 @@ $(function () {
 
     $("#btn_submit").attr("disabled", false);
     $(".loader").hide();
+
+    // double click to break down 30s
+    $("tr").dblclick(function (e) {
+      console.log(e.innerHTML);
+      console.log(this.innerHTML);
+    });
   });
 });
