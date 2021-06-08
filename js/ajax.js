@@ -10,11 +10,8 @@ $(function () {
   });
 
   $(window).scroll(function () {
-    if ($(this).scrollTop() > 300) {
-      $("#gotop").fadeIn("fast").show();
-    } else {
-      $("#gotop").stop().fadeOut("fast");
-    }
+    if ($(this).scrollTop() > 200) $("#gotop").fadeIn("fast").show();
+    else $("#gotop").stop().fadeOut("fast");
   });
 
   $("#btn_submit").click(function (e) {

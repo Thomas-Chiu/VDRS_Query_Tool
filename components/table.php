@@ -1,5 +1,5 @@
 <table class="table table-sm table-bordered table-hover">
-  <thead id="log_table_head" class="thead-light text-center">
+  <thead id="log_table_head" class="thead-light text-center sticky-top">
     <tr>
       <th scope="col">IMEI</th>
       <th scope="col">BUS ID</th>
@@ -22,7 +22,7 @@
     </tr>
   </thead>
 
-  <thead id="data_table_head" class="thead-light text-center">
+  <thead id="data_table_head" class="thead-light text-center sticky-top">
     <tr>
       <th scope="col">IMEI</th>
       <th scope="col">BUS ID</th>
@@ -45,7 +45,7 @@
     </tr>
   </thead>
 
-  <thead id="chk_table_head" class="thead-light text-center">
+  <thead id="chk_table_head" class="thead-light text-center sticky-top">
     <tr>
       <th scope="col">IMEI</th>
       <th scope="col">BUS ID</th>
@@ -67,6 +67,7 @@
       <th scope="col">轉速增益</th>
     </tr>
   </thead>
+
   <tbody class="text-center text-white list-table">
 
   </tbody>
