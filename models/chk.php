@@ -4,7 +4,7 @@ class Chk
   // db stuff
   private $conn;
   private $devEnv;
-  private $table = "f_chk_data_2";
+  private $table = "f_chk_data";
 
   // log properties
   public $imei;
