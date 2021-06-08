@@ -1,12 +1,7 @@
 $(function () {
   // go top
   $("#gotop").click(function () {
-    jQuery("html,body").animate(
-      {
-        scrollTop: 0,
-      },
-      1000
-    );
+    jQuery("html,body").animate({ scrollTop: 0 }, 1000);
   });
 
   $(window).scroll(function () {
@@ -18,12 +13,23 @@ $(function () {
     e.preventDefault();
     let getData = [];
     let reqData = {};
+    let startTimeStr = $("#startDate").val() + "T" + $("#startTime").val();
+    let endTimeStr = $("#endDate").val() + "T" + $("#endTime").val();
+    // UTC+8
+    let startUnixTime = new Date(startTimeStr).getTime();
+    let endUnixTime = new Date(endTimeStr).getTime();
+    let utc8StartStr = new Date(startUnixTime).toISOString();
+    let utc8EndStr = new Date(endUnixTime).toISOString();
+    let startDate = utc8StartStr.split("", 10).join("");
+    let startTime = utc8StartStr.slice(11, 19);
+    let endDate = utc8EndStr.split("", 10).join("");
+    let endTime = utc8EndStr.slice(11, 19);
 
     reqData.busId = $("#busId").val().trim();
-    reqData.startDate = $("#startDate").val();
-    reqData.startTime = $("#startTime").val();
-    reqData.endDate = $("#endDate").val();
-    reqData.endTime = $("#endTime").val();
+    reqData.startDate = startDate;
+    reqData.startTime = startTime;
+    reqData.endDate = endDate;
+    reqData.endTime = endTime;
     reqData.queryType = $("input[name=queryType]:checked").val();
 
     // input validation
@@ -85,8 +91,8 @@ $(function () {
         for (let d of getData) {
           const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
           let ioArr = d.io.split(""); // split() 字串轉陣列
-          let unixDateTime = Date.parse(d.date_time); // UTC+8
-          let unixInsertTime = Date.parse(d.insert_time);
+          let unixDateTime = new Date(d.date_time).getTime(); // UTC+8
+          let unixInsertTime = new Date(d.insert_time).getTime();
           let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
 
@@ -136,7 +142,6 @@ $(function () {
             $(`.list-row-${count}`).css("background", "green");
             $(`.list-row-${count - 1}`).css("background", "green");
           }
-
           count++;
         }
       }
@@ -153,7 +158,7 @@ $(function () {
         dataType: "json",
         success: function (res) {
           getData = res;
-          console.log(res[0]);
+          console.log(res);
         },
         error: function (err) {
           console.log(err.status + err.responseText);
