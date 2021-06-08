@@ -30,9 +30,9 @@ input[type="radio"]:checked + label:before {
 
 /* statistic */
 .statistic .row {
-  padding: 0;
+  padding: 1.5px 0 1.5px 0;
   border: 0.5px solid rgba(255, 255, 255, 0.5);
-  text-align: center;
+  font-size: 14px;
 }
 
 .statistic .row:nth-of-type(2) {

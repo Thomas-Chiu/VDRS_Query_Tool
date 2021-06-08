@@ -13,8 +13,8 @@ function today()
     <div class="row">
       <div class="col-md-3">
         <h6>BUS ID</h6>
-        <!-- <input id="busId" type="text" name="busId" placeholder="車牌號碼" required> -->
-        <input id="busId" type="text" name="busId" value="BUS-208" required>
+        <input id="busId" type="text" name="busId" placeholder="車牌號碼" required>
+        <!-- <input id="busId" type="text" name="busId" value="BUS-208" required> -->
       </div>
       <div class="col">
         <h6>起始時間</h6>
