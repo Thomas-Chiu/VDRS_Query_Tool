@@ -9,7 +9,7 @@ function today()
 ?>
 
 <form action="" method="post">
-  <div class="container bg-dark text-white-50">
+  <div class="container text-white-50">
     <div class="row">
       <div class="col-md-3">
         <h6>BUS ID</h6>
@@ -36,3 +36,32 @@ function today()
     </div>
   </div>
 </form>
+
+<div class="container text-white-50">
+  <div class="row">
+    <div class="col statistic">
+      <h6>數據統計</h6>
+      <div class="row">
+        <div class="col">回傳總筆數</div>
+        <div class="col">AB 點次數</div>
+        <div class="col">定位 V (筆數/比率)</div>
+        <div class="col">補傳 (筆數/比率)</div>
+        <div class="col">掉包率</div>
+      </div>
+      <div class="row">
+        <div class="col">1</div>
+        <div class="col">2</div>
+        <div class="col">3</div>
+        <div class="col">4</div>
+        <div class="col">5</div>
+      </div>
+    </div>
+    <div class="col status">
+      <h6>異常狀態</h6>
+      <span class="box">AB 點 (3min)</span>
+      <span class="box">定位 V</span>
+      <span class="box">補傳 (3min)</span>
+      <span class="box">熄火</span>
+    </div>
+  </div>
+</div>

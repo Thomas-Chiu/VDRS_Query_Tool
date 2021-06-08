@@ -16,7 +16,7 @@
 }
 
 .btn {
-  padding: 0 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 /* appearance for checked radiobutton */
@@ -26,6 +26,43 @@ input[type="radio"]:checked + label:before {
 
 .custom-control-label::before {
   border: none;
+}
+
+/* statistic */
+.statistic .row {
+  padding: 0;
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.statistic .row:nth-of-type(2) {
+  border-top: none;
+}
+
+/* status */
+.box {
+  width: 150px;
+  height: 50px;
+  color: black;
+  display: inline-block;
+  text-align: center;
+  line-height: 50px;
+}
+
+.status span:nth-child(2) {
+  background: green;
+}
+
+.status span:nth-child(3) {
+  background: tomato;
+}
+
+.status span:nth-child(4) {
+  background: lightblue;
+}
+
+.status span:nth-child(5) {
+  background: gray;
 }
 
 /* thead hide */
