@@ -118,30 +118,30 @@ $(function () {
           </tr>
           `);
 
-          console.log(unixDateTime - unixDateTimeArr[count - 1]);
-
           // log function validation
           if (d.gps_signal !== "A") {
             // 定位失效
-            $(`.list-row-${count}`).css("background", "coral");
+            $(`.list-row-${count}`).css("background", "tomato");
           }
           if (ioArr[0] === "0") {
             // 熄火
             $(`.list-row-${count}`).css("background", "gray");
           }
-          if (insertTime - dateTime > 180000) {
+          if (unixInsertTime - unixDateTime > 180000) {
             // 補傳 3min
             $(`.list-row-${count}`).css("background", "lightblue");
           }
-          if (unixDateTime - unixDateTimeArr[count - 1] > 180000) {
+          if (
+            unixDateTime - unixDateTimeArr[count - 1] > 180000 ||
+            unixDateTime - unixDateTimeArr[count - 1] < -180000
+          ) {
             // AB 點 3min
-            $(`.list-row-${count}`).css("background", "lightgreen");
-            console.log(unixDateTime - unixDateTimeArr[count - 1]);
+            $(`.list-row-${count}`).css("background", "green");
+            $(`.list-row-${count - 1}`).css("background", "green");
           }
 
           count++;
         }
-        // console.log(unixDateTimeArr);
       }
     }
 

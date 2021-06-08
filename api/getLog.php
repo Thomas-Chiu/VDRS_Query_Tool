@@ -27,6 +27,8 @@ if ($count > 0) {
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     // json to object
     $log_data = json_decode($row["log_data"]);
+    // mileage unit M to KM
+    $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // JAS106 condition
     if (
       $row["imei"] == null ||
@@ -44,7 +46,7 @@ if ($count > 0) {
         "gps_signal" => $row["gps_signal"],
         "csq" => $row["csq"],
         "gps" => $row["gps"],
-        "mileage" => $row["mile"],
+        "mileage" => $mileage,
         "longitude" => $log_data[0]->longitude,
         "latitude" => $log_data[0]->latitude,
         "direction" => $log_data[0]->direction,
@@ -93,7 +95,7 @@ if ($count > 0) {
         "gps_signal" => $row["gps_signal"],
         "csq" => $row["csq"],
         "gps" => $row["gps"],
-        "mileage" => $row["mile"],
+        "mileage" => $mileage,
         "longitude" => $log_data[0]->longitude,
         "latitude" => $log_data[0]->latitude,
         "direction" => $log_data[0]->direction,
