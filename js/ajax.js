@@ -84,9 +84,8 @@ $(function () {
       $("#data_table_head, #chk_table_head").hide();
       $("#log_table_head").show();
       // create list-table
-      if (getData.status) {
-        alert(getData.message);
-      } else {
+      if (getData.status) alert(getData.message);
+      else {
         let unixDateTimeArr = [];
 
         for (let d of getData) {
@@ -169,17 +168,21 @@ $(function () {
       $("#log_table_head, #chk_table_head").hide();
       $("#data_table_head").show();
       // create list-table
-      if (getData.status) {
-        alert(getData.message);
-      } else {
+      if (getData.status) alert(getData.message);
+      else {
         for (let d of getData) {
+          let unixDateTime = new Date(d.date_time).getTime(); // UTC+8
+          let unixInsertTime = new Date(d.insert_time).getTime();
+          let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
+          let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
+
           $(".list-table").append(`
           <tr class="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
-            <td class="list-col">${d.date_time}</td>
-            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${dateTime}</td>
+            <td class="list-col">${insertTime}</td>
             <td class="list-col">${d.gps_signal}</td>
             <td class="list-col">${d.longitude}</td>
             <td class="list-col">${d.latitude}</td>
@@ -222,16 +225,18 @@ $(function () {
       $("#log_table_head, #data_table_head").hide();
       $("#chk_table_head").show();
       // create list-table
-      if (getData.status) {
-        alert(getData.message);
-      } else {
+      if (getData.status) alert(getData.message);
+      else {
         for (let d of getData) {
+          let unixInsertTime = new Date(d.insert_time).getTime();
+          let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
+
           $(".list-table").append(`
           <tr class="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
-            <td class="list-col">${d.insert_time}</td>
+            <td class="list-col">${insertTime}</td>
             <td class="list-col">${d.device_type}</td>
             <td class="list-col">${d.fw_sign}</td>
             <td class="list-col">${d.csq}</td>
