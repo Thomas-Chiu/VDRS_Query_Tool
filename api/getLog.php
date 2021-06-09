@@ -27,11 +27,12 @@ if ($count > 0) {
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     // json to object
     $log_data = json_decode($row["log_data"]);
-    // mileage unit M to KM
-    $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // lon & lat float unit
     $longitude =  $log_data[0]->longitude / 1000000;
     $latitude =  $log_data[0]->latitude / 1000000;
+    // mileage unit M to KM
+    if ($row["mile"] == "00000000") $mileage = 0;
+    else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // JAS106 condition
     if (
       $row["imei"] == null ||
