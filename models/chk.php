@@ -39,9 +39,9 @@ class Chk
   {
     // create query
     if ($this->devEnv) {
-      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time` DESC";
+      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time`";
     } else {
-      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time` DESC";
+      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `bus_id` = '$_POST[busId]' AND `insert_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `insert_time`";
     }
 
     // prepare statement

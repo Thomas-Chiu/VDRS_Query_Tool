@@ -39,9 +39,9 @@ class Data
   {
     // create query
     if ($this->devEnv) {
-      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time`";
     } else {
-      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time` DESC";
+      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time`";
     }
 
     // prepare statement

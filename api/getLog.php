@@ -33,37 +33,47 @@ if ($count > 0) {
     // mileage unit M to KM
     if ($row["mile"] == "00000000") $mileage = 0;
     else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
-    // JAS106 condition
+    // null validation
     if (
       $row["imei"] == null ||
       $row["imsi"] == null ||
       $row["driver_id"] == null ||
       $log_data[0]->deviceStatus == "undefined"
     ) {
-      $log_item = array(
-        "imei" => "－",
-        "bus_id" => $row["serial"],
-        "imsi" => "－",
-        "driver_id" => "－",
-        "date_time" => $row["date_time"],
-        "insert_time" => $row["insert_time"],
-        "gps_signal" => $row["gps_signal"],
-        "csq" => $row["csq"],
-        "gps" => $row["gps"],
-        "mileage" => $mileage,
-        "longitude" => $longitude,
-        "latitude" => $latitude,
-        "direction" => $log_data[0]->direction,
-        "speed" => $log_data[0]->speed,
-        "rpm" => $log_data[0]->rpm,
-        "gps_speed" => $log_data[0]->gpsSpeed,
-        "io" => $log_data[0]->io,
-        "device_status" => "－"
-      );
+      $imei = "－";
+      $imsi = "－";
+      $driver_id = "－";
+      $device_status = "－";
+    } else {
+      $imei = $row["imei"];
+      $imsi = $row["imsi"];
+      $driver_id = $row["driver_id"];
+      $device_status = $log_data[0]->deviceStatus;
     }
+
+    $log_item = array(
+      "imei" => $imei,
+      "bus_id" => $row["serial"],
+      "imsi" => $imsi,
+      "driver_id" => $driver_id,
+      "date_time" => $row["date_time"],
+      "insert_time" => $row["insert_time"],
+      "gps_signal" => $row["gps_signal"],
+      "csq" => $row["csq"],
+      "gps" => $row["gps"],
+      "mileage" => $mileage,
+      "longitude" => $longitude,
+      "latitude" => $latitude,
+      "direction" => $log_data[0]->direction,
+      "speed" => $log_data[0]->speed,
+      "rpm" => $log_data[0]->rpm,
+      "gps_speed" => $log_data[0]->gpsSpeed,
+      "io" => $log_data[0]->io,
+      "device_status" => $device_status
+    );
+
     // break down 30s log_data
     // for ($i = 0; $i < 30; $i++) {
-
     //   $log_item = array(
     //     "imei" => $row["imei"],
     //     "bus_id" => $row["serial"],
@@ -88,28 +98,6 @@ if ($count > 0) {
     //   array_push($logs_arr, $log_item);
     // }
 
-    else {
-      $log_item = array(
-        "imei" => $row["imei"],
-        "bus_id" => $row["serial"],
-        "imsi" => $row["imsi"],
-        "driver_id" => $row["driver_id"],
-        "date_time" => $row["date_time"],
-        "insert_time" => $row["insert_time"],
-        "gps_signal" => $row["gps_signal"],
-        "csq" => $row["csq"],
-        "gps" => $row["gps"],
-        "mileage" => $mileage,
-        "longitude" => $longitude,
-        "latitude" => $latitude,
-        "direction" => $log_data[0]->direction,
-        "speed" => $log_data[0]->speed,
-        "rpm" => $log_data[0]->rpm,
-        "gps_speed" => $log_data[0]->gpsSpeed,
-        "io" => $log_data[0]->io,
-        "device_status" => $log_data[0]->deviceStatus
-      );
-    }
     // push to data
     array_push($logs_arr, $log_item);
   }

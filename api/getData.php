@@ -25,11 +25,22 @@ if ($count > 0) {
   $datas_arr = array();
 
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    // json to object
+    // mileage unit M to KM
+    if ($row["mile"] == "00000000") $mileage = 0;
+    else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
+    // null validation
+    if ($row["imei"] == null || $row["imsi"] == null) {
+      $imei = "－";
+      $imsi = "－";
+    } else {
+      $imei = $row["imei"];
+      $imsi = $row["imsi"];
+    }
+
     $data_item = array(
-      "imei" => $row["imei"],
+      "imei" => $imei,
       "bus_id" => $row["serial"],
-      "imsi" => $row["imsi"],
+      "imsi" => $imsi,
       "date_time" => $row["date_time"],
       "insert_time" => $row["insert_time"],
       "gps_signal" => $row["gps_signal"],
@@ -37,7 +48,7 @@ if ($count > 0) {
       "latitude" => $row["latitude"],
       "direction" => $row["direction"],
       "speed" => $row["speed"],
-      "mileage" => $row["mile"],
+      "mileage" => $mileage,
       "rpm" => $row["rpm"],
       "driver_id" => $row["driver_id"],
       "csq" => $row["csq"],

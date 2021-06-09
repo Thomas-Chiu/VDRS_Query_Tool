@@ -25,11 +25,14 @@ if ($count > 0) {
   $chks_arr = array();
 
   while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+    // null validation
+    if ($row["imsi"] == null) $imsi = "－";
+    else $imsi = $row["imsi"];
     // json to object
     $chk_item = array(
       "imei" => $row["imei"],
       "bus_id" => $row["bus_id"],
-      "imsi" => $row["imsi"],
+      "imsi" => $imsi,
       "insert_time" => $row["insert_time"],
       "device_type" => $row["device_type"],
       "fw_sign" => $row["fw_sign"],
