@@ -120,7 +120,7 @@ $(function () {
           </tr>
           `);
 
-          // log function validation
+          // function validation
           if (d.gps_signal !== "A") {
             // 定位失效
             $(`.list-row-${count}`).css("background", "tomato");
@@ -198,6 +198,16 @@ $(function () {
             <td class="list-col">${d.abnormal_content}</td>
           </tr>
           `);
+
+          // function validation
+          if (d.gps_signal !== "A") {
+            // 定位失效
+            $(`.list-row-${count}`).css("background", "tomato");
+          }
+          if (unixInsertTime - unixDateTime > 180000) {
+            // 補傳 3min
+            $(`.list-row-${count}`).css("background", "lightblue");
+          }
           count++;
         }
       }
