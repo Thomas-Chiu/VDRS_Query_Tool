@@ -119,27 +119,38 @@ $(function () {
             <td class="list-col">${d.device_status}</td>
           </tr>
           `);
+          console.log(unixDateTime - unixDateTimeArr[count - 1]);
 
           // function validation
           if (d.gps_signal !== "A") {
             // 定位失效
-            $(`.list-row-${count}`).css("background", "tomato");
+            $(`.list-row-${count}`)
+              .css("background", "tomato")
+              .addClass("text-body");
           }
           if (ioArr[0] === "0") {
             // 熄火
-            $(`.list-row-${count}`).css("background", "gray");
+            $(`.list-row-${count}`)
+              .css("background", "gray")
+              .addClass("text-body");
           }
           if (unixInsertTime - unixDateTime > 180000) {
             // 補傳 3min
-            $(`.list-row-${count}`).css("background", "lightblue");
+            $(`.list-row-${count}`)
+              .css("background", "lightblue")
+              .addClass("text-body");
           }
           if (
-            unixDateTime - unixDateTimeArr[count - 1] > 180000 ||
-            unixDateTime - unixDateTimeArr[count - 1] < -180000
+            unixDateTime - unixDateTimeArr[count - 1] > 180000 &&
+            ioArr[0] === "1"
           ) {
             // AB 點 3min
-            $(`.list-row-${count}`).css("background", "green");
-            $(`.list-row-${count - 1}`).css("background", "green");
+            $(`.list-row-${count}`)
+              .css("background", "green")
+              .addClass("text-body");
+            $(`.list-row-${count - 1}`)
+              .css("background", "green")
+              .addClass("text-body");
           }
           count++;
         }
