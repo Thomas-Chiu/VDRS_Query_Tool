@@ -119,7 +119,6 @@ $(function () {
             <td class="list-col">${d.device_status}</td>
           </tr>
           `);
-          console.log(unixDateTime - unixDateTimeArr[count - 1]);
 
           // function validation
           if (d.gps_signal !== "A") {
