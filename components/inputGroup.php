@@ -42,18 +42,18 @@ function today()
     <div class="col statistic">
       <h6>數據統計</h6>
       <div class="row">
-        <div class="col">回傳總筆數</div>
+        <div class="col">封包數/總筆數</div>
         <div class="col">AB 點次數</div>
         <div class="col">定位 V (筆數/比率)</div>
         <div class="col">補傳 (筆數/比率)</div>
         <div class="col">掉包率</div>
       </div>
-      <div class="row">
-        <div class="col">1</div>
-        <div class="col">2</div>
-        <div class="col">3</div>
-        <div class="col">4</div>
-        <div class="col">5</div>
+      <div class="row result">
+        <div class="col">0</div>
+        <div class="col">0</div>
+        <div class="col">0</div>
+        <div class="col">0</div>
+        <div class="col">0</div>
       </div>
     </div>
     <div class="col status">

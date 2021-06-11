@@ -18,6 +18,10 @@
         <input type="radio" id="chk" name="queryType" value="chk" class="custom-control-input">
         <label class="custom-control-label" for="chk">CHK</label>
       </li>
+      <li id="btn_toggle">
+        <i class="bi bi-toggle-off"></i>
+        <span> 深色模式 </span>
+      </li>
     </ul>
   </div>
 </nav>

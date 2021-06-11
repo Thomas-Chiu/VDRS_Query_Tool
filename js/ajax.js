@@ -9,6 +9,18 @@ $(function () {
     else $("#gotop").stop().fadeOut("fast");
   });
 
+  // dark/light mode
+  // $("#btn_toggle").click(function () {
+  //   let toggle = true;
+  //   if (toggle) {
+  //     $("body").removeClass("bg-dark");
+  //     $("nav").removeClass("bg-dark");
+  //   } else {
+  //     $("body").addClass("bg-dark");
+  //     $("nav").addClass("bg-dark");
+  //   }
+  // });
+
   $("#btn_submit").click(function (e) {
     e.preventDefault();
     const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
@@ -63,6 +75,12 @@ $(function () {
 
     function logAjax() {
       let count = 0;
+      let abSpotCount = 0;
+      let gpsSignalCount = 0;
+      let makeUpCount = 0;
+      let expectCount = 0;
+      let missCount = 0;
+      let unixDateTimeArr = [];
       // jq ajax
       $.ajax({
         async: false,
@@ -86,8 +104,6 @@ $(function () {
       // create list-table
       if (getData.status) alert(getData.message);
       else {
-        let unixDateTimeArr = [];
-
         for (let d of getData) {
           let ioArr = d.io.split("");
           let unixDateTime = new Date(d.date_time).getTime(); // UTC+8
@@ -126,6 +142,7 @@ $(function () {
             $(`.list-row-${count}`)
               .css("background", "tomato")
               .addClass("text-body");
+            gpsSignalCount++;
           }
           if (ioArr[0] === "0") {
             // 熄火
@@ -138,6 +155,7 @@ $(function () {
             $(`.list-row-${count}`)
               .css("background", "lightblue")
               .addClass("text-body");
+            makeUpCount++;
           }
           if (
             unixDateTime - unixDateTimeArr[count - 1] > 180000 &&
@@ -150,9 +168,31 @@ $(function () {
             $(`.list-row-${count - 1}`)
               .css("background", "green")
               .addClass("text-body");
+            abSpotCount++;
           }
           count++;
+          expectCount =
+            (unixDateTimeArr[unixDateTimeArr.length - 1] - unixDateTimeArr[0]) /
+            1000;
+          missCount = expectCount - count * 30;
         }
+        // 封包數/總比數
+        $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
+        // AB 點次數
+        $(".result .col:nth-of-type(2)").html(abSpotCount);
+        // 定位失效比率
+        $(".result .col:nth-of-type(3)").html(
+          `${gpsSignalCount} (${((gpsSignalCount / count) * 100).toFixed(2)}%)`
+        );
+        // 補傳比率
+        $(".result .col:nth-of-type(4)").html(
+          `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
+        );
+        // 掉包率 (掉包筆數 / 預期總筆數)
+        $(".result .col:nth-of-type(5)").html(
+          `(${((missCount / expectCount) * 100).toFixed(2)}%)`
+        );
+        console.log(expectCount, missCount);
       }
     }
 
