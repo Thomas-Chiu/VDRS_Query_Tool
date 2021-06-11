@@ -189,10 +189,10 @@ $(function () {
           `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
         );
         // 掉包率 (掉包筆數 / 預期總筆數)
-        $(".result .col:nth-of-type(5)").html(
-          `(${((missCount / expectCount) * 100).toFixed(2)}%)`
-        );
-        console.log(expectCount, missCount);
+        // $(".result .col:nth-of-type(5)").html(
+        //   `(${((missCount / expectCount) * 100).toFixed(2)}%)`
+        // );
+        // console.log(expectCount, missCount);
       }
     }
 
