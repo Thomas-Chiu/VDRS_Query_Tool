@@ -31,19 +31,13 @@ if ($count > 0) {
     $longitude =  $log_data[0]->longitude / 1000000;
     $latitude =  $log_data[0]->latitude / 1000000;
     // mileage unit M to KM
-    if ($row["mile"] == "00000000") $mileage = 0;
-    else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
+    $row["mile"] == "00000000" ? $mileage = 0 : $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // null validation
-    if ($row["imei"] == null) $imei = "－";
-    if ($row["imsi"] == null) $imsi = "－";
-    if ($row["driver_id"] == null) $driver_id = "－";
-    if ($log_data[0]->deviceStatus == "undefined") $device_status = "－";
-    else {
-      $imei = $row["imei"];
-      $imsi = $row["imsi"];
-      $driver_id = $row["driver_id"];
-      $device_status = $log_data[0]->deviceStatus;
-    }
+    $row["imei"] == null ? $imei = "－" : $imei = $row["imei"];
+    $row["imsi"] == null ? $imsi = "－" : $imsi = $row["imsi"];
+    $row["driver_id"] == null ? $driver_id = "－" : $driver_id = $row["driver_id"];
+    // JAS106 deviceStatus
+    $row["imei"] == null || $row["imsi"] == null ? $device_status = "－" : $device_status = $log_data[0]->deviceStatus;
 
     $log_item = array(
       "imei" => $imei,

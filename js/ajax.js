@@ -106,13 +106,11 @@ $(function () {
       else {
         for (let d of getData) {
           let ioArr = d.io.split("");
+          let accOn = false;
           let unixDateTime = new Date(d.date_time).getTime(); // UTC+8
           let unixInsertTime = new Date(d.insert_time).getTime();
           let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
-
-          // 比對 AB 點用
-          unixDateTimeArr.push(unixDateTime);
 
           $(".list-table").append(`
           <tr class="list-row-${count}">
@@ -136,6 +134,13 @@ $(function () {
             <td class="list-col">${d.device_status}</td>
           </tr>
           `);
+
+          // 比對 AB 點用
+          ioArr[0] === "1" ? (accOn = true) : (accOn = false);
+          unixDateTimeArr.push({
+            accOn: accOn,
+            timeStamp: unixDateTime,
+          });
 
           // function validation
           if (d.gps_signal !== "A") {
