@@ -40,6 +40,10 @@ input[type="radio"]:checked + label:before {
   border-top: none;
 }
 
+.result .badge {
+  cursor: pointer;
+}
+
 /* status */
 .box {
   width: 150px;

@@ -53,7 +53,7 @@ function today()
         <div class="col">0</div>
         <div class="col">0</div>
         <div class="col">0</div>
-        <div class="col">0</div>
+        <div class="col badge badge-warning" data-toggle="modal" data-target="#missCount_table">0</div>
       </div>
     </div>
     <div class="col status">
@@ -62,6 +62,38 @@ function today()
       <span class="box">定位 V</span>
       <span class="box">補傳 (3min)</span>
       <span class="box">熄火</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="missCount_table" class="modal fade">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="exampleModalLabel" class="modal-title">LOG 掉包率資訊</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm table-bordered table-hover">
+          <thead id="missCount_table_head" class="thead-light text-center sticky-top">
+            <tr>
+              <th scope="col">ACC ON</th>
+              <th scope="col">ACC OFF</th>
+              <th scope="col">區段時間</th>
+              <th scope="col">預計收到筆數</th>
+              <th scope="col">實際收到筆數</th>
+              <th scope="col">差異筆數</th>
+              <th scope="col">資料遺失率</th>
+            </tr>
+          </thead>
+          <tbody class="text-center text-white missCount-list">
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
