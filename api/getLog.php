@@ -34,17 +34,11 @@ if ($count > 0) {
     if ($row["mile"] == "00000000") $mileage = 0;
     else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // null validation
-    if (
-      $row["imei"] == null ||
-      $row["imsi"] == null ||
-      $row["driver_id"] == null ||
-      $log_data[0]->deviceStatus == "undefined"
-    ) {
-      $imei = "－";
-      $imsi = "－";
-      $driver_id = "－";
-      $device_status = "－";
-    } else {
+    if ($row["imei"] == null) $imei = "－";
+    if ($row["imsi"] == null) $imsi = "－";
+    if ($row["driver_id"] == null) $driver_id = "－";
+    if ($log_data[0]->deviceStatus == "undefined") $device_status = "－";
+    else {
       $imei = $row["imei"];
       $imsi = $row["imsi"];
       $driver_id = $row["driver_id"];

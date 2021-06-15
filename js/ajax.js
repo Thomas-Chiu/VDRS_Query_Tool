@@ -111,7 +111,8 @@ $(function () {
           let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
 
-          unixDateTimeArr.push(unixDateTime); // 比對 AB 點用
+          // 比對 AB 點用
+          unixDateTimeArr.push(unixDateTime);
 
           $(".list-table").append(`
           <tr class="list-row-${count}">
@@ -176,7 +177,7 @@ $(function () {
             1000;
           missCount = expectCount - count * 30;
         }
-        // 封包數/總比數
+        // 封包數/總筆數
         $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
         // AB 點次數
         $(".result .col:nth-of-type(2)").html(abSpotCount);
@@ -189,10 +190,11 @@ $(function () {
           `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
         );
         // 掉包率 (掉包筆數 / 預期總筆數)
-        // $(".result .col:nth-of-type(5)").html(
-        //   `(${((missCount / expectCount) * 100).toFixed(2)}%)`
-        // );
-        // console.log(expectCount, missCount);
+        $(".result .col:nth-of-type(5)").html(
+          `(${((missCount / expectCount) * 100).toFixed(2)}%)`
+        );
+        console.log(unixDateTimeArr);
+        console.log(expectCount, missCount);
       }
     }
 

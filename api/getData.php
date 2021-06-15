@@ -29,10 +29,9 @@ if ($count > 0) {
     if ($row["mile"] == "00000000") $mileage = 0;
     else $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
     // null validation
-    if ($row["imei"] == null || $row["imsi"] == null) {
-      $imei = "－";
-      $imsi = "－";
-    } else {
+    if ($row["imei"] == null) $imei = "－";
+    if ($row["imsi"] == null) $imsi = "－";
+    else {
       $imei = $row["imei"];
       $imsi = $row["imsi"];
     }
