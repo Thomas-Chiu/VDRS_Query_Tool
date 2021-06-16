@@ -182,7 +182,9 @@ $(function () {
             (unixDateTimeArr[unixDateTimeArr.length - 1].timeStamp -
               unixDateTimeArr[0].timeStamp) /
             1000;
-          missCount = expectCount - count * 30;
+          missCount < 0
+            ? (missCount = 0)
+            : (missCount = expectCount - count * 30);
         }
         // 封包數/總筆數
         $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
@@ -206,13 +208,13 @@ $(function () {
         let tempOn = {};
         for (d of unixDateTimeArr) {
           d.accOn ? (tempOn = d) : (tempOff = d);
-          console.log(tempOff, tempOn);
 
-          if (
-            Object.keys(tempOn).length === 0 ||
-            Object.keys(tempOff).length === 0
-          )
-            return;
+          // console.log(tempOff, tempOn);
+          // if (
+          //   Object.keys(tempOn).length === 0 ||
+          //   Object.keys(tempOff).length === 0
+          // )
+          //   return;
 
           $(".missCount-list").append(`
             <tr>
