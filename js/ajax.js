@@ -186,6 +186,7 @@ $(function () {
             ? (missCount = 0)
             : (missCount = expectCount - count * 30);
         }
+
         // 封包數/總筆數
         $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
         // AB 點次數
@@ -204,10 +205,16 @@ $(function () {
         );
         // 掉包率明細
 
-        let tempOff = {};
-        let tempOn = {};
+        let missCountList = [];
+        let tempAccOn = {};
+        let tempAccOff = {};
+
         for (d of unixDateTimeArr) {
-          d.accOn ? (tempOn = d) : (tempOff = d);
+          if (d.accOn) {
+            tempAccOn = unixDateTimeArr.shift();
+          }
+          console.log(tempAccOn, unixDateTimeArr);
+          // d.accOn ? (tempOn = d) : (tempOff = d);
 
           // console.log(tempOff, tempOn);
           // if (
@@ -216,19 +223,19 @@ $(function () {
           // )
           //   return;
 
-          $(".missCount-list").append(`
-            <tr>
-              <td>${tempOn.dateTime}</td>
-              <td>${tempOff.dateTime}</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
-            </tr>`);
+          // $(".missCount-list").append(`
+          //   <tr>
+          //     <td>${tempOn.dateTime}</td>
+          //     <td>${tempOff.dateTime}</td>
+          //     <td>3</td>
+          //     <td>4</td>
+          //     <td>5</td>
+          //     <td>6</td>
+          //     <td>7</td>
+          //   </tr>`);
         }
 
-        console.log(tempOff, tempOn);
+        // console.log(tempOff, tempOn);
         console.log(unixDateTimeArr);
         console.log(expectCount, missCount);
       }
