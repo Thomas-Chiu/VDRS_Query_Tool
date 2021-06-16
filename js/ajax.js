@@ -206,38 +206,37 @@ $(function () {
         // 掉包率明細
 
         let missCountList = [];
-        let tempAccOn = {};
-        let tempAccOff = {};
+        let tempAccOn = [];
+        let tempAccOff = [];
 
         for (d of unixDateTimeArr) {
-          if (d.accOn) {
-            tempAccOn = unixDateTimeArr.shift();
+          if (d.accOn) tempAccOn.push(d);
+          if (!d.accOn) tempAccOff.push(d);
+          if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
+            missCountList.push({
+              accOn: tempAccOn[0],
+              accOff: tempAccOff[0],
+            });
+            tempAccOn = [];
+            tempAccOff = [];
           }
-          console.log(tempAccOn, unixDateTimeArr);
-          // d.accOn ? (tempOn = d) : (tempOff = d);
-
-          // console.log(tempOff, tempOn);
-          // if (
-          //   Object.keys(tempOn).length === 0 ||
-          //   Object.keys(tempOff).length === 0
-          // )
-          //   return;
-
-          // $(".missCount-list").append(`
-          //   <tr>
-          //     <td>${tempOn.dateTime}</td>
-          //     <td>${tempOff.dateTime}</td>
-          //     <td>3</td>
-          //     <td>4</td>
-          //     <td>5</td>
-          //     <td>6</td>
-          //     <td>7</td>
-          //   </tr>`);
         }
+        console.log(tempAccOn, tempAccOff);
+        console.log(missCountList);
+        // $(".missCount-list").append(`
+        //   <tr>
+        //     <td>${tempOn.dateTime}</td>
+        //     <td>${tempOff.dateTime}</td>
+        //     <td>3</td>
+        //     <td>4</td>
+        //     <td>5</td>
+        //     <td>6</td>
+        //     <td>7</td>
+        //   </tr>`);
 
         // console.log(tempOff, tempOn);
-        console.log(unixDateTimeArr);
-        console.log(expectCount, missCount);
+        // console.log(unixDateTimeArr);
+        // console.log(expectCount, missCount);
       }
     }
 
