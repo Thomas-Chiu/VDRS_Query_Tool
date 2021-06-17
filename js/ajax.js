@@ -81,6 +81,31 @@ $(function () {
       let expectCount = 0;
       let missCount = 0;
       let unixDateTimeArr = [];
+      let missCountList = [];
+      let tempAccOn = [];
+      let tempAccOff = [];
+      let durationList = [];
+      const getDuration = (unixDuration) => {
+        let days = Math.floor(unixDuration / 60 / 60 / 24);
+        let hours = Math.floor(unixDuration / 60 / 60 - 24 * days);
+        let minutes = Math.floor(
+          unixDuration / 60 - 24 * 60 * days - 60 * hours
+        );
+        let seconds =
+          unixDuration - 24 * 60 * 60 * days - 60 * 60 * hours - 60 * minutes;
+        let duration = "";
+
+        if (hours < 10) hours = "0" + hours;
+        if (minutes < 10) minutes = "0" + minutes;
+        if (seconds < 10) seconds = "0" + seconds;
+        unixDuration > 86400
+          ? (duration = `${days} 天 ${hours}:${minutes}:${seconds}`)
+          : (duration = `${hours}:${minutes}:${seconds}`);
+        // 放陣列第一個位置方便取得
+        durationList.unshift(duration);
+        return duration;
+      };
+
       // jq ajax
       $.ajax({
         async: false,
@@ -204,39 +229,51 @@ $(function () {
           `(${((missCount / expectCount) * 100).toFixed(2)}%)`
         );
         // 掉包率明細
-
-        let missCountList = [];
-        let tempAccOn = [];
-        let tempAccOff = [];
-
-        for (d of unixDateTimeArr) {
+        for (let d of unixDateTimeArr) {
+          // 整理趟次
           if (d.accOn) tempAccOn.push(d);
-          if (!d.accOn) tempAccOff.push(d);
+          if (!d.accOn && tempAccOn.length !== 0) tempAccOff.push(d);
           if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
             missCountList.push({
               accOn: tempAccOn[0],
               accOff: tempAccOff[0],
+              actualReceive: tempAccOn.length * 30,
             });
             tempAccOn = [];
             tempAccOff = [];
           }
         }
-        console.log(tempAccOn, tempAccOff);
         console.log(missCountList);
-        // $(".missCount-list").append(`
-        //   <tr>
-        //     <td>${tempOn.dateTime}</td>
-        //     <td>${tempOff.dateTime}</td>
-        //     <td>3</td>
-        //     <td>4</td>
-        //     <td>5</td>
-        //     <td>6</td>
-        //     <td>7</td>
-        //   </tr>`);
 
-        // console.log(tempOff, tempOn);
-        // console.log(unixDateTimeArr);
-        // console.log(expectCount, missCount);
+        for (let d of missCountList) {
+          // 印出趟次
+          let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
+          let lostCount = unixDuration - d.actualReceive;
+          getDuration(unixDuration);
+
+          $(".missCount-list").append(`
+          <tr>
+            <td>${d.accOn.dateTime}</td>
+            <td>${d.accOff.dateTime}</td>
+            <td>${durationList[0]}</td>
+            <td>${unixDuration}</td>
+            <td>${d.actualReceive}</td>
+            <td>${lostCount}</td>
+            <td>${((lostCount / d.actualReceive) * 100).toFixed(2)}%</td>
+          </tr>
+          `);
+        }
+        // 掉包率總計
+        $(".missCount-list").append(`
+        <tr>
+          <td colspan="2">總計：</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>%</td>
+        </tr>
+        `);
       }
     }
 

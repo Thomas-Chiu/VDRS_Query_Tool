@@ -44,8 +44,8 @@ function today()
       <div class="row">
         <div class="col">封包數/總筆數</div>
         <div class="col">AB 點次數</div>
-        <div class="col">定位 V (筆數/比率)</div>
-        <div class="col">補傳 (筆數/比率)</div>
+        <div class="col">定位 V (包數/比率)</div>
+        <div class="col">補傳 (包數/比率)</div>
         <div class="col">掉包率</div>
       </div>
       <div class="row result">
