@@ -74,17 +74,6 @@ $(function () {
     }
 
     function logAjax() {
-      let count = 0;
-      let abSpotCount = 0;
-      let gpsSignalCount = 0;
-      let makeUpCount = 0;
-      let expectCount = 0;
-      let missCount = 0;
-      let unixDateTimeArr = [];
-      let missCountList = [];
-      let tempAccOn = [];
-      let tempAccOff = [];
-      let durationList = [];
       const getDuration = (unixDuration) => {
         let days = Math.floor(unixDuration / 60 / 60 / 24);
         let hours = Math.floor(unixDuration / 60 / 60 - 24 * days);
@@ -101,10 +90,89 @@ $(function () {
         unixDuration > 86400
           ? (duration = `${days} 天 ${hours}:${minutes}:${seconds}`)
           : (duration = `${hours}:${minutes}:${seconds}`);
-        // 放陣列第一個位置方便取得
-        durationList.unshift(duration);
+        durationList.unshift(duration); // 放陣列第一個位置方便取得
         return duration;
       };
+      const getLostCount = () => {
+        for (let d of unixDateTimeArr) {
+          // 整理趟次
+          if (d.accOn) tempAccOn.push(d);
+          if (!d.accOn && tempAccOn.length !== 0) tempAccOff.push(d);
+          if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
+            lostCountList.push({
+              accOn: tempAccOn[0],
+              accOff: tempAccOff[0],
+              actualReceive: tempAccOn.length * 30,
+            });
+            tempAccOn = [];
+            tempAccOff = [];
+          }
+        }
+        for (let d of lostCountList) {
+          // 印出趟次
+          let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
+          let lostCount = unixDuration - d.actualReceive;
+
+          getDuration(unixDuration);
+          $(".lostCount-list").append(`
+                  <tr>
+                    <td>${d.accOn.dateTime}</td>
+                    <td>${d.accOff.dateTime}</td>
+                    <td>${durationList[0]}</td>
+                    <td>${unixDuration}</td>
+                    <td>${d.actualReceive}</td>
+                    <td>${lostCount}</td>
+                    <td>${((lostCount / unixDuration) * 100).toFixed(2)}%</td>
+                  </tr>
+                  `);
+          sumUnixDuration += unixDuration;
+          sumActualReceive += d.actualReceive;
+          sumLostCount += lostCount;
+        }
+        // 掉包率總計
+        $(".lostCount-list").append(`
+        <tr>
+          <td colspan="2" class="text-right">總計：</td>
+          <td>${getDuration(sumUnixDuration)}</td>
+          <td>${sumUnixDuration}</td>
+          <td>${sumActualReceive}</td>
+          <td>${sumLostCount}</td>
+          <td>${((sumLostCount / sumUnixDuration) * 100).toFixed(2)}%</td>
+        </tr>
+        `);
+      };
+      const getStatistic = () => {
+        // 封包數/總筆數
+        $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
+        // AB 點次數
+        $(".result .col:nth-of-type(2)").html(abSpotCount);
+        // 定位失效比率
+        $(".result .col:nth-of-type(3)").html(
+          `${gpsSignalCount} (${((gpsSignalCount / count) * 100).toFixed(2)}%)`
+        );
+        // 補傳比率
+        $(".result .col:nth-of-type(4)").html(
+          `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
+        );
+        // 掉包率 (掉包筆數 / 預期總筆數)
+        $(".result .col:nth-of-type(5)").html(
+          `(${((sumLostCount / sumUnixDuration) * 100).toFixed(2)}%)`
+        );
+      };
+      let count = 0;
+      let abSpotCount = 0;
+      let gpsSignalCount = 0;
+      let makeUpCount = 0;
+      let expectCount = 0;
+      let lostCount = 0;
+      let unixDateTimeArr = [];
+      let lostCountList = [];
+      let tempAccOn = [];
+      let tempAccOff = [];
+      let durationList = [];
+      let sumUnixDuration = 0;
+      let sumActualReceive = 0;
+      let sumLostCount = 0;
 
       // jq ajax
       $.ajax({
@@ -143,7 +211,7 @@ $(function () {
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
             <td class="list-col">${d.driver_id}</td>
-            <td class="list-col">${dateTime}</td>
+            <td id="dblclick" class="list-col">${dateTime}</td>
             <td class="list-col">${insertTime}</td>
             <td class="list-col">${d.gps_signal}</td>
             <td class="list-col">${d.csq}</td>
@@ -208,74 +276,13 @@ $(function () {
             (unixDateTimeArr[unixDateTimeArr.length - 1].timeStamp -
               unixDateTimeArr[0].timeStamp) /
             1000;
-          missCount < 0
-            ? (missCount = 0)
-            : (missCount = expectCount - count * 30);
+          lostCount < 0
+            ? (lostCount = 0)
+            : (lostCount = expectCount - count * 30);
         }
-        console.log(unixDateTimeArr[count - 1].timeStamp);
 
-        // 封包數/總筆數
-        $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
-        // AB 點次數
-        $(".result .col:nth-of-type(2)").html(abSpotCount);
-        // 定位失效比率
-        $(".result .col:nth-of-type(3)").html(
-          `${gpsSignalCount} (${((gpsSignalCount / count) * 100).toFixed(2)}%)`
-        );
-        // 補傳比率
-        $(".result .col:nth-of-type(4)").html(
-          `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
-        );
-        // 掉包率 (掉包筆數 / 預期總筆數)
-        $(".result .col:nth-of-type(5)").html(
-          `(${((missCount / expectCount) * 100).toFixed(2)}%)`
-        );
-        // 掉包率明細
-        for (let d of unixDateTimeArr) {
-          // 整理趟次
-          if (d.accOn) tempAccOn.push(d);
-          if (!d.accOn && tempAccOn.length !== 0) tempAccOff.push(d);
-          if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
-            missCountList.push({
-              accOn: tempAccOn[0],
-              accOff: tempAccOff[0],
-              actualReceive: tempAccOn.length * 30,
-            });
-            tempAccOn = [];
-            tempAccOff = [];
-          }
-        }
-        console.log(missCountList);
-
-        for (let d of missCountList) {
-          // 印出趟次
-          let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
-          let lostCount = unixDuration - d.actualReceive;
-          getDuration(unixDuration);
-
-          $(".missCount-list").append(`
-          <tr>
-            <td>${d.accOn.dateTime}</td>
-            <td>${d.accOff.dateTime}</td>
-            <td>${durationList[0]}</td>
-            <td>${unixDuration}</td>
-            <td>${d.actualReceive}</td>
-            <td>${lostCount}</td>
-            <td>${((lostCount / unixDuration) * 100).toFixed(2)}%</td>
-          </tr>
-          `);
-        }
-        // 掉包率總計
-        $(".missCount-list").append(`
-        <tr>
-          <td colspan="2">總計：</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>%</td>
-        </tr>
-        `);
+        getLostCount();
+        getStatistic();
       }
     }
 
@@ -406,8 +413,31 @@ $(function () {
 
     // double click to break down 30s
     $("tr").dblclick(function (e) {
-      console.log(e.innerHTML);
-      console.log(this.innerHTML);
+      let dateTimeFor30 = $(this).find("#dblclick");
+      console.log(dateTimeFor30[0].innerHTML);
+
+      $(this).after(`
+    <tr class="list-row-30s">
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+      <td class="list-col"></td>
+    </tr>
+      `);
     });
   });
 });
