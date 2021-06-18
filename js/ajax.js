@@ -190,8 +190,9 @@ $(function () {
             makeUpCount++;
           }
           if (
-            unixDateTime - unixDateTimeArr[count - 1] > 180000 &&
-            ioArr[0] === "1"
+            count != 0 &&
+            ioArr[0] === "1" &&
+            unixDateTime - unixDateTimeArr[count - 1].timeStamp > 180000
           ) {
             // AB 點 3min
             $(`.list-row-${count}`)
@@ -211,6 +212,7 @@ $(function () {
             ? (missCount = 0)
             : (missCount = expectCount - count * 30);
         }
+        console.log(unixDateTimeArr[count - 1].timeStamp);
 
         // 封包數/總筆數
         $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
@@ -259,7 +261,7 @@ $(function () {
             <td>${unixDuration}</td>
             <td>${d.actualReceive}</td>
             <td>${lostCount}</td>
-            <td>${((lostCount / d.actualReceive) * 100).toFixed(2)}%</td>
+            <td>${((lostCount / unixDuration) * 100).toFixed(2)}%</td>
           </tr>
           `);
         }
