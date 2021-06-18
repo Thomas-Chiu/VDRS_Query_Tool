@@ -414,7 +414,22 @@ $(function () {
     // double click to break down 30s
     $("tr").dblclick(function (e) {
       let dateTimeFor30 = $(this).find("#dblclick");
-      console.log(dateTimeFor30[0].innerHTML);
+      let dateTime30Str = dateTimeFor30[0].innerHTML;
+      const getDateToUnix = () => {
+        console.log(dateTime30Str);
+        let dateStr = dateTime30Str.slice(0, 9);
+        let timeStr = dateTime30Str.slice(10, dateTime30Str.length);
+        let dateUnix = new Date(dateStr).getTime(); // UTC time
+        let timeUnix = timeStr.find((e) => {
+          e == "下午";
+        });
+        console.log(timeUnix);
+        // timeUnix();
+        console.log(dateUnix);
+        console.log(timeStr);
+        console.log(timeUnix);
+      };
+      getDateToUnix();
 
       $(this).after(`
     <tr class="list-row-30s">

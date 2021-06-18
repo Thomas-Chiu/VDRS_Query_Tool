@@ -15,7 +15,7 @@ $devEnv = $database->environment();
 $log = new Log($db, $devEnv);
 
 // query
-$result = $log->getLog();
+$result = $log->get30sLog();
 
 // get row count
 $count = $result->rowCount();
@@ -59,6 +59,33 @@ if ($count > 0) {
       "io" => $log_data[0]->io,
       "device_status" => $device_status
     );
+
+    // break down 30s log_data
+    // for ($i = 0; $i < 30; $i++) {
+    //   $log_item = array(
+    //     "imei" => $row["imei"],
+    //     "bus_id" => $row["serial"],
+    //     "imsi" => $row["imsi"],
+    //     "driver_id" => $row["driver_id"],
+    //     // "date_time" => $row["date_time"],
+    //     "date_time" => $i,
+    //     "insert_time" => $row["insert_time"],
+    //     "gps_signal" => $row["gps_signal"],
+    //     "csq" => $row["csq"],
+    //     "gps" => $row["gps"],
+    //     "mileage" => $row["mile"],
+    //     "longitude" => $log_data[$i]->longitude,
+    //     "latitude" => $log_data[$i]->latitude,
+    //     "direction" => $log_data[$i]->direction,
+    //     "speed" => $log_data[$i]->speed,
+    //     "rpm" => $log_data[$i]->rpm,
+    //     "gps_speed" => $log_data[$i]->gpsSpeed,
+    //     "io" => $log_data[$i]->io,
+    //     "device_status" => $log_data[$i]->deviceStatus
+    //   );
+    //   array_push($logs_arr, $log_item);
+    // }
+
     // push to data
     array_push($logs_arr, $log_item);
   }
