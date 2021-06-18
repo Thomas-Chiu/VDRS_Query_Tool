@@ -17,86 +17,58 @@ $log = new Log($db, $devEnv);
 // query
 $result = $log->get30sLog();
 
-// get row count
-$count = $result->rowCount();
+// get 30s result
+$get30s_result = $result->fetch(PDO::FETCH_ASSOC);
 
-// check row count
-if ($count > 0) {
-  $logs_arr = array();
+// json to object
+$log_data = json_decode($get30s_result["log_data"]);
+// mileage unit M to KM
+$get30s_result["mile"] == "00000000" ? $mileage = 0 : $mileage = round(ltrim($get30s_result["mile"], "0") / 1000, 2);
+// null validation
+$get30s_result["imei"] == null ? $imei = "－" : $imei = $get30s_result["imei"];
+$get30s_result["imsi"] == null ? $imsi = "－" : $imsi = $get30s_result["imsi"];
+$get30s_result["driver_id"] == null ? $driver_id = "－" : $driver_id = $get30s_result["driver_id"];
+// JAS106 deviceStatus
+$get30s_result["imei"] == null || $get30s_result["imsi"] == null ? $device_status = "－" : $device_status = $log_data[0]->deviceStatus;
+// date_time & insert_time to timestamp
+$date_timestamp = strtotime($get30s_result["date_time"]);
+$insert_timestamp = strtotime($get30s_result["insert_time"]);
 
-  while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    // json to object
-    $log_data = json_decode($row["log_data"]);
-    // lon & lat float unit
-    $longitude =  $log_data[0]->longitude / 1000000;
-    $latitude =  $log_data[0]->latitude / 1000000;
-    // mileage unit M to KM
-    $row["mile"] == "00000000" ? $mileage = 0 : $mileage = round(ltrim($row["mile"], "0") / 1000, 2);
-    // null validation
-    $row["imei"] == null ? $imei = "－" : $imei = $row["imei"];
-    $row["imsi"] == null ? $imsi = "－" : $imsi = $row["imsi"];
-    $row["driver_id"] == null ? $driver_id = "－" : $driver_id = $row["driver_id"];
-    // JAS106 deviceStatus
-    $row["imei"] == null || $row["imsi"] == null ? $device_status = "－" : $device_status = $log_data[0]->deviceStatus;
+$logs_arr = array();
+// break down 30s log_data
+for ($i = 0; $i < 30; $i++) {
+  // lon & lat float unit
+  $longitude =  $log_data[$i]->longitude / 1000000;
+  $latitude =  $log_data[$i]->latitude / 1000000;
+  // date_time & insert_time ++
+  $date_time = $date_timestamp + $i + 1;
+  $insert_time = $insert_timestamp + $i + 1;
 
-    $log_item = array(
-      "imei" => $imei,
-      "bus_id" => $row["serial"],
-      "imsi" => $imsi,
-      "driver_id" => $driver_id,
-      "date_time" => $row["date_time"],
-      "insert_time" => $row["insert_time"],
-      "gps_signal" => $row["gps_signal"],
-      "csq" => $row["csq"],
-      "gps" => $row["gps"],
-      "mileage" => $mileage,
-      "longitude" => $longitude,
-      "latitude" => $latitude,
-      "direction" => $log_data[0]->direction,
-      "speed" => $log_data[0]->speed,
-      "rpm" => $log_data[0]->rpm,
-      "gps_speed" => $log_data[0]->gpsSpeed,
-      "io" => $log_data[0]->io,
-      "device_status" => $device_status
-    );
-
-    // break down 30s log_data
-    // for ($i = 0; $i < 30; $i++) {
-    //   $log_item = array(
-    //     "imei" => $row["imei"],
-    //     "bus_id" => $row["serial"],
-    //     "imsi" => $row["imsi"],
-    //     "driver_id" => $row["driver_id"],
-    //     // "date_time" => $row["date_time"],
-    //     "date_time" => $i,
-    //     "insert_time" => $row["insert_time"],
-    //     "gps_signal" => $row["gps_signal"],
-    //     "csq" => $row["csq"],
-    //     "gps" => $row["gps"],
-    //     "mileage" => $row["mile"],
-    //     "longitude" => $log_data[$i]->longitude,
-    //     "latitude" => $log_data[$i]->latitude,
-    //     "direction" => $log_data[$i]->direction,
-    //     "speed" => $log_data[$i]->speed,
-    //     "rpm" => $log_data[$i]->rpm,
-    //     "gps_speed" => $log_data[$i]->gpsSpeed,
-    //     "io" => $log_data[$i]->io,
-    //     "device_status" => $log_data[$i]->deviceStatus
-    //   );
-    //   array_push($logs_arr, $log_item);
-    // }
-
-    // push to data
-    array_push($logs_arr, $log_item);
-  }
-  // output json
-  echo json_encode($logs_arr, JSON_PRETTY_PRINT);
-} else {
-  // no log
-  echo json_encode(
-    array(
-      "status" => 404,
-      "message" => "搜尋無資料"
-    )
+  $log_item = array(
+    "imei" => $get30s_result["imei"],
+    "bus_id" => $get30s_result["serial"],
+    "imsi" => $get30s_result["imsi"],
+    "driver_id" => $get30s_result["driver_id"],
+    "date_time" => $date_time,
+    "insert_time" => $insert_time,
+    "gps_signal" => $get30s_result["gps_signal"],
+    "csq" => $get30s_result["csq"],
+    "gps" => $get30s_result["gps"],
+    "mileage" => $get30s_result["mile"],
+    "longitude" => $longitude,
+    "latitude" => $latitude,
+    "direction" => $log_data[$i]->direction,
+    "speed" => $log_data[$i]->speed,
+    "rpm" => $log_data[$i]->rpm,
+    "gps_speed" => $log_data[$i]->gpsSpeed,
+    "io" => $log_data[$i]->io,
+    "device_status" => $device_status
   );
-};
+  // push to data
+  array_push($logs_arr, $log_item);
+}
+
+// output 30s json
+foreach ($logs_arr as $value) {
+  echo json_encode($logs_arr, JSON_PRETTY_PRINT);
+}

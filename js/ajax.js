@@ -204,7 +204,6 @@ $(function () {
         error: function (err) {
           alert("查無資料");
           console.log(err.status + err.responseText);
-          return;
         },
       });
       // reset list-table
@@ -430,45 +429,49 @@ $(function () {
 
     // double click to break down 30s
     $("tr").dblclick(function (e) {
-      let dateTimeFor30 = $(this).find("#dblclick");
-      let dateTime30Str = dateTimeFor30[0].innerHTML;
-      const getDateToUnix = () => {
-        console.log(dateTime30Str);
-        let dateStr = dateTime30Str.slice(0, 9);
-        let timeStr = dateTime30Str.slice(10, dateTime30Str.length);
-        let dateUnix = new Date(dateStr).getTime(); // UTC time
-        let timeUnix = timeStr.find((e) => {
-          e == "下午";
-        });
-        console.log(timeUnix);
-        // timeUnix();
-        console.log(dateUnix);
-        console.log(timeStr);
-        console.log(timeUnix);
-      };
-      getDateToUnix();
-
+      let get30sData = [];
+      let thisRow = $(this).attr("class").slice(0, 10);
+      let thisRowCount = thisRow.split("-").reverse().shift();
+      let thisRowDateTime = getData[thisRowCount].date_time;
+      reqData.thisRowDateTime = thisRowDateTime;
+      // jq ajax
+      $.ajax({
+        // async: false,
+        type: "post",
+        url: "/api/get30sLog.php",
+        data: reqData,
+        dataType: "json",
+        success: function (res) {
+          get30sData = res;
+          console.log(res);
+          console.log("YA");
+        },
+        error: function (err) {
+          console.log(err.status + err.responseText);
+          console.log("NO");
+        },
+      });
       $(this).after(`
-    <tr class="list-row-30s">
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-      <td class="list-col"></td>
-    </tr>
+      <tr class="list-row-30s">
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+        <td class="list-col"></td>
+      </tr>
       `);
     });
   });

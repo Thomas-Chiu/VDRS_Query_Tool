@@ -73,7 +73,7 @@ function today()
   <div class="modal-dialog modal-xl">
     <div class="modal-content bg-dark">
       <div class="modal-header">
-        <h5 class="modal-title text-white-50">LOG 掉包率資訊 (最後一筆資料會當作末趟的 ACC OFF)</h5>
+        <h5 class="modal-title text-white-50">LOG 掉包率資訊 <small>(末筆資料視為末趟 ACC OFF)</small></h5>
       </div>
       <div class="modal-body">
         <table class="table table-sm table-bordered table-hover">
