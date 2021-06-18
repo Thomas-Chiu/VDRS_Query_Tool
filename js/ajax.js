@@ -94,6 +94,8 @@ $(function () {
         return duration;
       };
       const getLostCount = () => {
+        // reset lostCount list
+        $(".lostCount-list tr").remove();
         for (let d of unixDateTimeArr) {
           // 整理趟次
           if (d.accOn) tempAccOn.push(d);
@@ -108,10 +110,24 @@ $(function () {
             tempAccOff = [];
           }
         }
+        // 末筆封包當作末趟 ACC OFF
+        lostCountList.push({
+          accOn: tempAccOn[0],
+          accOff: tempAccOn[tempAccOn.length - 1],
+          actualReceive: tempAccOn.length * 30,
+        });
         for (let d of lostCountList) {
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
           let lostCount = unixDuration - d.actualReceive;
+          let lostCountPercentage = ((lostCount / unixDuration) * 100).toFixed(
+            2
+          );
+          // fix -infinity & NaN
+          lostCount < 0 ? (lostCount = 0) : (lostCount = lostCount);
+          isNaN(lostCountPercentage) || lostCountPercentage < 0
+            ? (lostCountPercentage = "0.00")
+            : (lostCountPercentage = lostCountPercentage);
 
           getDuration(unixDuration);
           $(".lostCount-list").append(`
@@ -122,7 +138,7 @@ $(function () {
                     <td>${unixDuration}</td>
                     <td>${d.actualReceive}</td>
                     <td>${lostCount}</td>
-                    <td>${((lostCount / unixDuration) * 100).toFixed(2)}%</td>
+                    <td>${lostCountPercentage}%</td>
                   </tr>
                   `);
           sumUnixDuration += unixDuration;
@@ -188,6 +204,7 @@ $(function () {
         error: function (err) {
           alert("查無資料");
           console.log(err.status + err.responseText);
+          return;
         },
       });
       // reset list-table
