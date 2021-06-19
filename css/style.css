@@ -70,6 +70,10 @@ input[type="radio"]:checked + label:before {
   background: gray;
 }
 
+.status span:nth-child(6) {
+  background: lightgoldenrodyellow;
+}
+
 /* thead hide */
 #log_table_head,
 #data_table_head,

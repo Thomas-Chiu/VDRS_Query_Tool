@@ -222,7 +222,7 @@ $(function () {
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
 
           $(".list-table").append(`
-          <tr class="list-row-${count}">
+          <tr id="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
@@ -251,24 +251,23 @@ $(function () {
             timeStamp: unixDateTime,
             dateTime: dateTime,
           });
-
           // function validation
           if (d.gps_signal !== "A") {
             // 定位失效
-            $(`.list-row-${count}`)
+            $(`#list-row-${count}`)
               .css("background", "tomato")
               .addClass("text-body");
             gpsSignalCount++;
           }
           if (ioArr[0] === "0") {
             // 熄火
-            $(`.list-row-${count}`)
+            $(`#list-row-${count}`)
               .css("background", "gray")
               .addClass("text-body");
           }
           if (unixInsertTime - unixDateTime > 180000) {
             // 補傳 3min
-            $(`.list-row-${count}`)
+            $(`#list-row-${count}`)
               .css("background", "lightblue")
               .addClass("text-body");
             makeUpCount++;
@@ -279,10 +278,10 @@ $(function () {
             unixDateTime - unixDateTimeArr[count - 1].timeStamp > 180000
           ) {
             // AB 點 3min
-            $(`.list-row-${count}`)
+            $(`#list-row-${count}`)
               .css("background", "green")
               .addClass("text-body");
-            $(`.list-row-${count - 1}`)
+            $(`#list-row-${count - 1}`)
               .css("background", "green")
               .addClass("text-body");
             abSpotCount++;
@@ -313,7 +312,7 @@ $(function () {
         dataType: "json",
         success: function (res) {
           getData = res;
-          console.log(res);
+          console.log(getData);
         },
         error: function (err) {
           console.log(err.status + err.responseText);
@@ -333,7 +332,7 @@ $(function () {
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
 
           $(".list-table").append(`
-          <tr class="list-row-${count}">
+          <tr id="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
@@ -358,11 +357,11 @@ $(function () {
           // function validation
           if (d.gps_signal !== "A") {
             // 定位失效
-            $(`.list-row-${count}`).css("background", "tomato");
+            $(`#list-row-${count}`).css("background", "tomato");
           }
           if (unixInsertTime - unixDateTime > 180000) {
             // 補傳 3min
-            $(`.list-row-${count}`).css("background", "lightblue");
+            $(`#list-row-${count}`).css("background", "lightblue");
           }
           count++;
         }
@@ -380,7 +379,7 @@ $(function () {
         dataType: "json",
         success: function (res) {
           getData = res;
-          console.log(res[0]);
+          console.log(getData);
         },
         error: function (err) {
           console.log(err.status + err.responseText);
@@ -398,7 +397,7 @@ $(function () {
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
 
           $(".list-table").append(`
-          <tr class="list-row-${count}">
+          <tr id="list-row-${count}">
             <td class="list-col">${d.imei}</td>
             <td class="list-col">${d.bus_id}</td>
             <td class="list-col">${d.imsi}</td>
@@ -430,49 +429,62 @@ $(function () {
     // double click to break down 30s
     $("tr").dblclick(function (e) {
       let get30sData = [];
-      let thisRow = $(this).attr("class").slice(0, 10);
-      let thisRowCount = thisRow.split("-").reverse().shift();
+      let thisRowCount = $(this).attr("id").split("-").reverse().shift();
       let thisRowDateTime = getData[thisRowCount].date_time;
       reqData.thisRowDateTime = thisRowDateTime;
+
       // jq ajax
       $.ajax({
-        // async: false,
+        async: false,
         type: "post",
         url: "/api/get30sLog.php",
         data: reqData,
         dataType: "json",
         success: function (res) {
-          get30sData = res;
-          console.log(res);
-          console.log("YA");
+          get30sData = res[0].reverse();
+          console.log(get30sData);
         },
         error: function (err) {
           console.log(err.status + err.responseText);
-          console.log("NO");
         },
       });
-      $(this).after(`
-      <tr class="list-row-30s">
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-        <td class="list-col"></td>
-      </tr>
-      `);
+      // create 30s list
+      for (let i = 0; i < 29; i++) {
+        $(`.list-row-${i + 1}s`).remove();
+
+        let prefix = get30sData[i];
+        let dateTimeUnix = new Date(prefix.date_time).getTime();
+        let insertTimeUnix = new Date(prefix.insert_time).getTime();
+        let dateTime = new Date(dateTimeUnix + utc8ms).toLocaleString();
+        let insertTime = new Date(insertTimeUnix + utc8ms).toLocaleString();
+
+        $(`#list-row-${thisRowCount}`).after(`
+        <tr class="list-row-${i + 1}s">
+          <td class="list-col">${prefix.imei}</td>
+          <td class="list-col">${prefix.bus_id}</td>
+          <td class="list-col">${prefix.imsi}</td>
+          <td class="list-col">${prefix.driver_id}</td>
+          <td class="list-col">${dateTime}</td>
+          <td class="list-col">${insertTime}</td>
+          <td class="list-col">${prefix.gps_signal}</td>
+          <td class="list-col">${prefix.csq}</td>
+          <td class="list-col">${prefix.gps}</td>
+          <td class="list-col">${prefix.mileage}</td>
+          <td class="list-col">${prefix.longitude}</td>
+          <td class="list-col">${prefix.latitude}</td>
+          <td class="list-col">${prefix.direction}</td>
+          <td class="list-col">${prefix.speed}</td>
+          <td class="list-col">${prefix.rpm}</td>
+          <td class="list-col">${prefix.gps_speed}</td>
+          <td class="list-col">${prefix.io}</td>
+          <td class="list-col">${prefix.device_status}</td>
+        </tr>
+        `);
+        // highlight
+        $(`.list-row-${i + 1}s`)
+          .css("background", "lightgoldenrodyellow")
+          .addClass("text-body");
+      }
     });
   });
 });

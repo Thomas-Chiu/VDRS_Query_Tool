@@ -64,6 +64,7 @@ function today()
       <span class="box">定位 V</span>
       <span class="box">補傳 (3min)</span>
       <span class="box">熄火</span>
+      <span class="box">30 筆明細</span>
     </div>
   </div>
 </div>

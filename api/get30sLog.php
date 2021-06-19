@@ -37,24 +37,29 @@ $insert_timestamp = strtotime($get30s_result["insert_time"]);
 $logs_arr = array();
 // break down 30s log_data
 for ($i = 0; $i < 30; $i++) {
+  // skip repeated item
+  if ($i == 0) continue;
   // lon & lat float unit
   $longitude =  $log_data[$i]->longitude / 1000000;
   $latitude =  $log_data[$i]->latitude / 1000000;
   // date_time & insert_time ++
-  $date_time = $date_timestamp + $i + 1;
-  $insert_time = $insert_timestamp + $i + 1;
+  $date_timestamp++;
+  $insert_timestamp++;
+  // timestamp to str
+  $date_time = date("Y-m-d H:i:s", $date_timestamp);
+  $insert_time = date("Y-m-d H:i:s", $insert_timestamp);
 
   $log_item = array(
-    "imei" => $get30s_result["imei"],
+    "imei" => $imei,
     "bus_id" => $get30s_result["serial"],
-    "imsi" => $get30s_result["imsi"],
-    "driver_id" => $get30s_result["driver_id"],
+    "imsi" => $imsi,
+    "driver_id" => $driver_id,
     "date_time" => $date_time,
     "insert_time" => $insert_time,
     "gps_signal" => $get30s_result["gps_signal"],
     "csq" => $get30s_result["csq"],
     "gps" => $get30s_result["gps"],
-    "mileage" => $get30s_result["mile"],
+    "mileage" => $mileage,
     "longitude" => $longitude,
     "latitude" => $latitude,
     "direction" => $log_data[$i]->direction,
@@ -69,6 +74,4 @@ for ($i = 0; $i < 30; $i++) {
 }
 
 // output 30s json
-foreach ($logs_arr as $value) {
-  echo json_encode($logs_arr, JSON_PRETTY_PRINT);
-}
+echo json_encode(array($logs_arr));
