@@ -1,26 +1,4 @@
 $(function () {
-  // go top
-  $("#gotop").click(function () {
-    jQuery("html,body").animate({ scrollTop: 0 }, 1000);
-  });
-
-  $(window).scroll(function () {
-    if ($(this).scrollTop() > 200) $("#gotop").fadeIn("fast").show();
-    else $("#gotop").stop().fadeOut("fast");
-  });
-
-  // dark/light mode
-  // $("#btn_toggle").click(function () {
-  //   let toggle = true;
-  //   if (toggle) {
-  //     $("body").removeClass("bg-dark");
-  //     $("nav").removeClass("bg-dark");
-  //   } else {
-  //     $("body").addClass("bg-dark");
-  //     $("nav").addClass("bg-dark");
-  //   }
-  // });
-
   $("#btn_submit").click(function (e) {
     e.preventDefault();
     const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
@@ -457,6 +435,7 @@ $(function () {
         let insertTimeUnix = new Date(prefix.insert_time).getTime();
         let dateTime = new Date(dateTimeUnix + utc8ms).toLocaleString();
         let insertTime = new Date(insertTimeUnix + utc8ms).toLocaleString();
+        let ioArr = prefix.io.split("");
 
         $(`#list-row-${thisRowCount}`).after(`
         <tr class="list-row-${i + 1}s">
@@ -480,10 +459,14 @@ $(function () {
           <td class="list-col">${prefix.device_status}</td>
         </tr>
         `);
-        // highlight
-        $(`.list-row-${i + 1}s`)
-          .css("background", "lightgoldenrodyellow")
-          .addClass("text-body");
+        // 熄火 or 明細
+        ioArr[0] === "0"
+          ? $(`.list-row-${i + 1}s`)
+              .css("background", "gray")
+              .addClass("text-body")
+          : $(`.list-row-${i + 1}s`)
+              .css("background", "lightgoldenrodyellow")
+              .addClass("text-body");
       }
     });
   });
