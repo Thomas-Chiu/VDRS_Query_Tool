@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark">
   <a class="navbar-brand" href="../index.php">VDRS 查詢工具</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_menu">
     <span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
       </li>
       <li id="btn_toggle">
         <i class="bi bi-toggle-off"></i>
-        <span> 深色模式 </span>
+        <span> 淺色模式 </span>
       </li>
     </ul>
   </div>
