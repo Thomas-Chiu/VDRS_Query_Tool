@@ -23,13 +23,5 @@ $(function () {
     $(".statistic .row").toggleClass("border-secondary");
     $(".navbar-nav, .container, .modal-title").toggleClass("text-white-50");
     $("#btn_toggle .bi").toggleClass("bi-toggle-on");
-
-    // if (toggleLight) {
-    //   $("body").removeClass("bg-dark");
-    //   $("nav").removeClass("bg-dark").addClass("text-");
-    // } else {
-    //   $("body").addClass("bg-dark");
-    //   $("nav").addClass("bg-dark");
-    // }
   });
 });
