@@ -428,7 +428,7 @@ $(function () {
       });
       // create 30s list
       for (let i = 0; i < 29; i++) {
-        $(`.list-row-${i + 1}s`).remove();
+        $(`.list-row-${thisRowCount}-${i + 1}s`).remove();
 
         let prefix = get30sData[i];
         let dateTimeUnix = new Date(prefix.date_time).getTime();
@@ -438,7 +438,7 @@ $(function () {
         let ioArr = prefix.io.split("");
 
         $(`#list-row-${thisRowCount}`).after(`
-        <tr class="list-row-${i + 1}s">
+        <tr class="list-row-${thisRowCount}-${i + 1}s">
           <td class="list-col">${prefix.imei}</td>
           <td class="list-col">${prefix.bus_id}</td>
           <td class="list-col">${prefix.imsi}</td>
@@ -461,10 +461,10 @@ $(function () {
         `);
         // 熄火 or 明細
         ioArr[0] === "0"
-          ? $(`.list-row-${i + 1}s`)
+          ? $(`.list-row-${thisRowCount}-${i + 1}s`)
               .css("background", "gray")
               .addClass("text-body")
-          : $(`.list-row-${i + 1}s`)
+          : $(`.list-row-${thisRowCount}-${i + 1}s`)
               .css("background", "lightgoldenrodyellow")
               .addClass("text-body");
       }
