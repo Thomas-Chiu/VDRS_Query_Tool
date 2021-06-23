@@ -103,8 +103,7 @@ $(function () {
           accOff: tempAccOn[tempAccOn.length - 1],
           actualReceive: (tempAccOn.length - 1) * 30,
         });
-        console.log(tempAccOn);
-        console.log(lostCountList);
+
         for (let d of lostCountList) {
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
