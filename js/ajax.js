@@ -91,7 +91,7 @@ $(function () {
             lostCountList.push({
               accOn: tempAccOn[0],
               accOff: tempAccOn[tempAccOn.length - 1],
-              actualReceive: (tempAccOn.length - 1) * 30,
+              actualReceive: tempAccOn.length * 30,
             });
             tempAccOn = [];
             tempAccOff = [];
@@ -101,12 +101,15 @@ $(function () {
         lostCountList.push({
           accOn: tempAccOn[0],
           accOff: tempAccOn[tempAccOn.length - 1],
-          actualReceive: (tempAccOn.length - 1) * 30,
+          actualReceive: tempAccOn.length * 30,
         });
+
+        console.log(lostCountList);
 
         for (let d of lostCountList) {
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
+          let expectCount = unixDuration + 30;
           let lostCount = unixDuration - d.actualReceive;
           let lostCountPercentage = ((lostCount / unixDuration) * 100).toFixed(
             2
@@ -123,7 +126,7 @@ $(function () {
                     <td>${d.accOn.dateTime}</td>
                     <td>${d.accOff.dateTime}</td>
                     <td>${durationList[0]}</td>
-                    <td>${unixDuration}</td>
+                    <td>${expectCount}</td>
                     <td>${d.actualReceive}</td>
                     <td>${lostCount}</td>
                     <td>${lostCountPercentage}%</td>
@@ -131,6 +134,7 @@ $(function () {
                   `);
           sumUnixDuration += unixDuration;
           sumActualReceive += d.actualReceive;
+          sumExpectCount += expectCount;
           sumLostCount += lostCount;
         }
         // 掉包率總計
@@ -138,7 +142,7 @@ $(function () {
         <tr>
           <td colspan="2" class="text-right">總計：</td>
           <td>${getDuration(sumUnixDuration)}</td>
-          <td>${sumUnixDuration}</td>
+          <td>${sumExpectCount}</td>
           <td>${sumActualReceive}</td>
           <td>${sumLostCount}</td>
           <td>${((sumLostCount / sumUnixDuration) * 100).toFixed(2)}%</td>
@@ -176,6 +180,7 @@ $(function () {
       let durationList = [];
       let sumUnixDuration = 0;
       let sumActualReceive = 0;
+      let sumExpectCount = 0;
       let sumLostCount = 0;
 
       // jq ajax
