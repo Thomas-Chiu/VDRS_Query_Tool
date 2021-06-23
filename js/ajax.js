@@ -79,10 +79,19 @@ $(function () {
           if (d.accOn) tempAccOn.push(d);
           if (!d.accOn && tempAccOn.length !== 0) tempAccOff.push(d);
           if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
+            /* 
             lostCountList.push({
               accOn: tempAccOn[0],
               accOff: tempAccOff[0],
               actualReceive: tempAccOn.length * 30,
+            });
+            */
+
+            // 修正因 JAS208 熄火封包在下次開機才補傳
+            lostCountList.push({
+              accOn: tempAccOn[0],
+              accOff: tempAccOn[tempAccOn.length - 1],
+              actualReceive: (tempAccOn.length - 1) * 30,
             });
             tempAccOn = [];
             tempAccOff = [];
@@ -92,8 +101,10 @@ $(function () {
         lostCountList.push({
           accOn: tempAccOn[0],
           accOff: tempAccOn[tempAccOn.length - 1],
-          actualReceive: tempAccOn.length * 30,
+          actualReceive: (tempAccOn.length - 1) * 30,
         });
+        console.log(tempAccOn);
+        console.log(lostCountList);
         for (let d of lostCountList) {
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
