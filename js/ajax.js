@@ -107,6 +107,7 @@ $(function () {
         console.log(lostCountList);
 
         for (let d of lostCountList) {
+          if (d.accOn == undefined || d.accOff == undefined) continue;
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
           let expectCount = unixDuration + 30;
