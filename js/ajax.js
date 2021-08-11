@@ -151,6 +151,8 @@ $(function () {
         `);
       };
       const getStatistic = () => {
+        console.log(noSpeedCount);
+
         // 封包數/總筆數
         $(".result .col:nth-of-type(1)").html(count + "/" + count * 30);
         // AB 點次數
@@ -163,8 +165,12 @@ $(function () {
         $(".result .col:nth-of-type(4)").html(
           `${makeUpCount} (${((makeUpCount / count) * 100).toFixed(2)}%)`
         );
-        // 掉包率 (掉包筆數 / 預期總筆數)
+        // ACC ON 無車速比率
         $(".result .col:nth-of-type(5)").html(
+          `${noSpeedCount} (${((noSpeedCount / count) * 100).toFixed(2)}%)`
+        );
+        // 掉包率 (掉包筆數 / 預期總筆數)
+        $(".result .col:nth-of-type(6)").html(
           `(${((sumLostCount / sumUnixDuration) * 100).toFixed(2)}%)`
         );
       };
@@ -174,6 +180,7 @@ $(function () {
       let makeUpCount = 0;
       let expectCount = 0;
       let lostCount = 0;
+      let noSpeedCount = 0;
       let unixDateTimeArr = [];
       let lostCountList = [];
       let tempAccOn = [];
@@ -279,6 +286,13 @@ $(function () {
               .css("background", "green")
               .addClass("text-body");
             abSpotCount++;
+          }
+          if (ioArr[0] === "1" && d.speed === 0) {
+            // ACC ON 無車速
+            $(`#list-row-${count}`)
+              .css("background", "palevioletred")
+              .addClass("text-body");
+            noSpeedCount++;
           }
           count++;
           expectCount =

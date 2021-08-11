@@ -55,33 +55,40 @@ input[type="radio"]:checked + label:before {
 }
 
 /* status */
-.box {
-  width: 150px;
-  height: 50px;
-  color: black;
-  display: inline-block;
-  text-align: center;
-  line-height: 50px;
+.bigBox {
+  display: flex;
 }
 
-.status span:nth-child(2) {
+.box {
+  width: 150px;
+  height: 75px;
+  color: black;
+  text-align: center;
+  line-height: 75px;
+}
+
+.bigBox > .box:nth-child(1) {
   background: green;
 }
 
-.status span:nth-child(3) {
+.bigBox > .box:nth-child(2) {
   background: tomato;
 }
 
-.status span:nth-child(4) {
+.bigBox > .box:nth-child(3) {
   background: lightblue;
 }
 
-.status span:nth-child(5) {
+.bigBox > .box:nth-child(4) {
   background: gray;
 }
 
-.status span:nth-child(6) {
+.bigBox > .box:nth-child(5) {
   background: lightgoldenrodyellow;
+}
+
+.bigBox > .box:nth-child(6) {
+  background: palevioletred;
 }
 
 /* thead hide */

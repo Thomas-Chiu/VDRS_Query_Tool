@@ -44,11 +44,13 @@ function today()
       <div class="row">
         <div class="col">封包數/總筆數</div>
         <div class="col">AB 點次數</div>
-        <div class="col">定位 V (包數/比率)</div>
-        <div class="col">補傳 (包數/比率)</div>
+        <div class="col">定位 V <br> (包數/比率)</div>
+        <div class="col">補傳 <br> (包數/比率)</div>
+        <div class="col">ACC ON 無車速 <br> (包數/比率)</div>
         <div class="col">掉包率</div>
       </div>
       <div class="row result">
+        <div class="col">0</div>
         <div class="col">0</div>
         <div class="col">0</div>
         <div class="col">0</div>
@@ -58,11 +60,14 @@ function today()
     </div>
     <div class="col status">
       <h6>異常狀態</h6>
-      <span class="box">AB 點 (3min)</span>
-      <span class="box">定位 V</span>
-      <span class="box">補傳 (3min)</span>
-      <span class="box">熄火</span>
-      <span class="box">30 筆明細</span>
+      <div class="bigBox">
+        <div class="box">AB 點 (3min)</div>
+        <div class="box">定位 V</div>
+        <div class="box">補傳 (3min)</div>
+        <div class="box">熄火</div>
+        <div class="box">30 筆明細</div>
+        <div class="box">ACC ON 無車速</div>
+      </div>
     </div>
   </div>
 </div>
