@@ -7,11 +7,11 @@ class Database
   private $dbname = "vdrs_jasslin";
   // private $dbname = "vdrs_v2";
   private $user = "vdrs_jasslin";
-  // private $user = "thomas";
+  // private $user = "root";
   private $pass = "13091876";
-  // private $pass = "dppss891234";
-  private $port = 3307;
-  // private $port = 3306;
+  // private $pass = "";
+  // private $port = 3307;
+  private $port = 3306;
   private $devEnv = false;
   private $conn;
 

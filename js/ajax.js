@@ -71,6 +71,7 @@ $(function () {
         durationList.unshift(duration); // 放陣列第一個位置方便取得
         return duration;
       };
+
       const getLostCount = () => {
         // reset lostCount list
         $(".lostCount-list tr").remove();
@@ -150,6 +151,7 @@ $(function () {
         </tr>
         `);
       };
+
       const getStatistic = () => {
         console.log(noSpeedCount);
 
@@ -338,6 +340,11 @@ $(function () {
           let unixInsertTime = new Date(d.insert_time).getTime();
           let dateTime = new Date(unixDateTime + utc8ms).toLocaleString();
           let insertTime = new Date(unixInsertTime + utc8ms).toLocaleString();
+          // 事件訊息不要取結束字元 #
+          let abnormalContent = d.abnormal_content.split("");
+          abnormalContent == "#"
+            ? (abnormalContent = "－")
+            : (abnormalContent = abnormalContent.slice(0, -1).join(""));
 
           $(".list-table").append(`
           <tr id="list-row-${count}">
@@ -358,7 +365,7 @@ $(function () {
             <td class="list-col">${d.gps}</td>
             <td class="list-col">${d.io}</td>
             <td class="list-col">${d.abnormal_code}</td>
-            <td class="list-col">${d.abnormal_content}</td>
+            <td class="list-col">${abnormalContent}</td>
           </tr>
           `);
 
@@ -449,7 +456,8 @@ $(function () {
         data: reqData,
         dataType: "json",
         success: function (res) {
-          get30sData = res[0].reverse();
+          // get30sData = res[0].reverse();
+          get30sData = res[0];
           console.log(get30sData);
         },
         error: function (err) {
@@ -457,7 +465,7 @@ $(function () {
         },
       });
       // create 30s list
-      for (let i = 0; i < 29; i++) {
+      for (let i = 0; i < get30sData.length; i++) {
         $(`.list-row-${thisRowCount}-${i + 1}s`).remove();
 
         let prefix = get30sData[i];
@@ -467,7 +475,7 @@ $(function () {
         let insertTime = new Date(insertTimeUnix + utc8ms).toLocaleString();
         let ioArr = prefix.io.split("");
 
-        $(`#list-row-${thisRowCount}`).after(`
+        $(`#list-row-${thisRowCount}`).before(`
         <tr class="list-row-${thisRowCount}-${i + 1}s">
           <td class="list-col">${prefix.imei}</td>
           <td class="list-col">${prefix.bus_id}</td>
