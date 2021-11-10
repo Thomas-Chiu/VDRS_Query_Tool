@@ -2,14 +2,14 @@
 class Database
 {
   // db params
-  private $host = "60.251.157.47";
+  private $host = "60.251.157.50";
   // private $host = "localhost";
   private $dbname = "vdrs_jasslin";
   // private $dbname = "vdrs_v2";
   private $user = "vdrs_jasslin";
-  // private $user = "thomas";
+  // private $user = "root";
   private $pass = "13091876";
-  // private $pass = "dppss891234";
+  // private $pass = "";
   // private $port = 3307;
   private $port = 3306;
   private $devEnv = false;

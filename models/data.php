@@ -4,8 +4,8 @@ class Data
   // db stuff
   private $conn;
   private $devEnv;
-  // private $table = "f_abnormal_data";
-  private $table = "f_abnormal_data_2";
+  private $table = "f_abnormal_data";
+  // private $table = "f_abnormal_data_2";
 
   // log properties
   public $imei;
