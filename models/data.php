@@ -3,7 +3,6 @@ class Data
 {
   // db stuff
   private $conn;
-  private $devEnv;
   private $table = "f_abnormal_data";
   // private $table = "f_abnormal_data_2";
 
@@ -28,21 +27,16 @@ class Data
   public $abnormalContent;
 
   // constructor with db 
-  public function __construct($db, $devEnv)
+  public function __construct($db)
   {
     $this->conn = $db;
-    $this->devEnv = $devEnv;
   }
 
   // get data
   public function getData()
   {
     // create query
-    if ($this->devEnv) {
-      $query = "SELECT * FROM `vdrs`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time`";
-    } else {
-      $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time`";
-    }
+    $query = "SELECT * FROM `vdrs_jasslin`.`$this->table` WHERE `serial` = '$_POST[busId]' AND `date_time` BETWEEN '$_POST[startDate] $_POST[startTime]' AND '$_POST[endDate] $_POST[endTime]' ORDER BY `date_time`";
 
     // prepare statement
     $stmt = $this->conn->prepare($query);

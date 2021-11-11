@@ -1,5 +1,5 @@
 <?php
-include_once "../config.php";
+include_once "../conf.php";
 include_once "../models/chk.php";
 
 // headers
@@ -9,10 +9,9 @@ header('Content-Type: application/json');
 // instantinte db & connect
 $database = new Database();
 $db = $database->connect();
-$devEnv = $database->environment();
 
 // instantiate log object
-$chk = new Chk($db, $devEnv);
+$chk = new Chk($db);
 
 // query
 $result = $chk->getChk();

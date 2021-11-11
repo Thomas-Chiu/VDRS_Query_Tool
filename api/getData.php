@@ -1,5 +1,5 @@
 <?php
-include_once "../config.php";
+include_once "../conf.php";
 include_once "../models/data.php";
 
 // headers
@@ -9,10 +9,9 @@ header('Content-Type: application/json');
 // instantinte db & connect
 $database = new Database();
 $db = $database->connect();
-$devEnv = $database->environment();
 
 // instantiate log object
-$data = new Data($db, $devEnv);
+$data = new Data($db);
 
 // query
 $result = $data->getData();
