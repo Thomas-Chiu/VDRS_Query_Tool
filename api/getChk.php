@@ -8,6 +8,7 @@ header('Content-Type: application/json');
 
 // instantinte db & connect
 $database = new Database();
+$database->connectOption($_POST["dbOption"]);
 $db = $database->connect();
 
 // instantiate log object

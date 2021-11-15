@@ -124,3 +124,12 @@ input[type="radio"]:checked + label:before {
   z-index: 1000;
   display: none;
 }
+
+label {
+  display: block;
+}
+
+/* dboption */
+#dbOption {
+  width: 180px;
+}

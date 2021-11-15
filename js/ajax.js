@@ -6,6 +6,7 @@ $(function () {
     let reqData = {};
     let startTimeStr = $("#startDate").val() + "T" + $("#startTime").val();
     let endTimeStr = $("#endDate").val() + "T" + $("#endTime").val();
+
     // UTC+8
     let startUnixTime = new Date(startTimeStr).getTime();
     let endUnixTime = new Date(endTimeStr).getTime();
@@ -16,6 +17,7 @@ $(function () {
     let endDate = utc8EndStr.split("", 10).join("");
     let endTime = utc8EndStr.slice(11, 19);
 
+    reqData.dbOption = $("#dbOption").val();
     reqData.busId = $("#busId").val().trim();
     reqData.startDate = startDate;
     reqData.startTime = startTime;

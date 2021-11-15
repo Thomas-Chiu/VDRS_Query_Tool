@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark">
-  <a class="navbar-brand" href="../index.php">燒機查詢工具</a>
+  <a class="navbar-brand" href="../index.php">VDRS / 燒機查詢工具</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_menu">
     <span class="navbar-toggler-icon"></span>
   </button>
