@@ -1,12 +1,12 @@
 $(function () {
   $("#btn_submit").click(function (e) {
     e.preventDefault();
-    const utc8ms = 8 * 60 * 60 * 1000; // UTC+8 ms
+    // UTC+8 ms
+    const utc8ms = 8 * 60 * 60 * 1000;
     let getData = [];
     let reqData = {};
     let startTimeStr = $("#startDate").val() + "T" + $("#startTime").val();
     let endTimeStr = $("#endDate").val() + "T" + $("#endTime").val();
-
     // UTC+8
     let startUnixTime = new Date(startTimeStr).getTime();
     let endUnixTime = new Date(endTimeStr).getTime();
@@ -53,6 +53,10 @@ $(function () {
         break;
     }
 
+    /**
+     * LOG START
+     */
+
     function logAjax() {
       const getDuration = (unixDuration) => {
         let days = Math.floor(unixDuration / 60 / 60 / 24);
@@ -82,20 +86,19 @@ $(function () {
           if (d.accOn) tempAccOn.push(d);
           if (!d.accOn && tempAccOn.length !== 0) tempAccOff.push(d);
           if (tempAccOn.length !== 0 && tempAccOff.length !== 0) {
-            /* 
             lostCountList.push({
               accOn: tempAccOn[0],
               accOff: tempAccOff[0],
               actualReceive: tempAccOn.length * 30,
             });
-            */
 
             // 修正因 JAS208 熄火封包在下次開機才補傳
-            lostCountList.push({
-              accOn: tempAccOn[0],
-              accOff: tempAccOn[tempAccOn.length - 1],
-              actualReceive: tempAccOn.length * 30,
-            });
+            // lostCountList.push({
+            //   accOn: tempAccOn[0],
+            //   accOff: tempAccOn[tempAccOn.length - 1],
+            //   actualReceive: tempAccOn.length * 30,
+            // });
+
             tempAccOn = [];
             tempAccOff = [];
           }
@@ -113,9 +116,9 @@ $(function () {
           if (d.accOn == undefined || d.accOff == undefined) continue;
           // 印出趟次
           let unixDuration = (d.accOff.timeStamp - d.accOn.timeStamp) / 1000;
-          let expectCount = unixDuration + 30;
-          let lostCount = unixDuration - d.actualReceive;
-          let lostCountPercentage = ((lostCount / unixDuration) * 100).toFixed(
+          let expectCount = unixDuration;
+          let lostCount = expectCount - d.actualReceive;
+          let lostCountPercentage = ((lostCount / expectCount) * 100).toFixed(
             2
           );
           // fix -infinity & NaN
@@ -207,7 +210,7 @@ $(function () {
           console.log(getData);
         },
         error: function (err) {
-          alert("查無資料");
+          alert("查無資料，請確認資料庫是否正確");
           console.log(err.status + err.responseText);
         },
       });
@@ -218,6 +221,17 @@ $(function () {
       // create list-table
       if (getData.status) alert(getData.message);
       else {
+        // 判斷封包時間是否重複
+        let compareArr = getData;
+        compareArr.forEach(function (value, index) {
+          if (index === 0) return;
+          else {
+            // 保留第一包
+            if (value.date_time == getData[index - 1].date_time)
+              getData.splice(index, 1);
+          }
+        });
+
         for (let d of getData) {
           let ioArr = d.io.split("");
           let accOn = false;
@@ -257,6 +271,20 @@ $(function () {
             dateTime: dateTime,
           });
           // function validation
+          if (unixInsertTime - unixDateTime > 180000) {
+            // 補傳 3min
+            $(`#list-row-${count}`)
+              .css("background", "lightblue")
+              .addClass("text-body");
+            makeUpCount++;
+          }
+          if (ioArr[0] === "1" && d.speed === 0) {
+            // ACC ON 無車速
+            $(`#list-row-${count}`)
+              .css("background", "palevioletred")
+              .addClass("text-body");
+            noSpeedCount++;
+          }
           if (d.gps_signal !== "A") {
             // 定位失效
             $(`#list-row-${count}`)
@@ -270,16 +298,10 @@ $(function () {
               .css("background", "gray")
               .addClass("text-body");
           }
-          if (unixInsertTime - unixDateTime > 180000) {
-            // 補傳 3min
-            $(`#list-row-${count}`)
-              .css("background", "lightblue")
-              .addClass("text-body");
-            makeUpCount++;
-          }
           if (
             count != 0 &&
             ioArr[0] === "1" &&
+            unixDateTimeArr[count - 1].accOn &&
             unixDateTime - unixDateTimeArr[count - 1].timeStamp > 180000
           ) {
             // AB 點 3min
@@ -291,13 +313,7 @@ $(function () {
               .addClass("text-body");
             abSpotCount++;
           }
-          if (ioArr[0] === "1" && d.speed === 0) {
-            // ACC ON 無車速
-            $(`#list-row-${count}`)
-              .css("background", "palevioletred")
-              .addClass("text-body");
-            noSpeedCount++;
-          }
+
           count++;
           expectCount =
             (unixDateTimeArr[unixDateTimeArr.length - 1].timeStamp -
@@ -312,6 +328,14 @@ $(function () {
         getStatistic();
       }
     }
+
+    /**
+     * LOG END
+     */
+
+    /**
+     * DATA START
+     */
 
     function dataAjax() {
       let count = 0;
@@ -372,18 +396,26 @@ $(function () {
           `);
 
           // function validation
-          if (d.gps_signal !== "A") {
-            // 定位失效
-            $(`#list-row-${count}`).css("background", "tomato");
-          }
           if (unixInsertTime - unixDateTime > 180000) {
             // 補傳 3min
             $(`#list-row-${count}`).css("background", "lightblue");
+          }
+          if (d.gps_signal !== "A") {
+            // 定位失效
+            $(`#list-row-${count}`).css("background", "tomato");
           }
           count++;
         }
       }
     }
+
+    /**
+     * DATA END
+     */
+
+    /**
+     * CHK START
+     */
 
     function chkAjax() {
       let count = 0;
@@ -440,10 +472,17 @@ $(function () {
       }
     }
 
+    /**
+     * CHK END
+     */
+
     $("#btn_submit").attr("disabled", false);
     $(".loader").hide();
 
-    // double click to break down 30s
+    /**
+     * LOG 30s START
+     */
+
     $("tr").dblclick(function (e) {
       let get30sData = [];
       let thisRowCount = $(this).attr("id").split("-").reverse().shift();
@@ -509,5 +548,9 @@ $(function () {
               .addClass("text-body");
       }
     });
+
+    /**
+     * LOG 30s END
+     */
   });
 });

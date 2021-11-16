@@ -66,14 +66,14 @@ function today()
       </div>
     </div>
     <div class="col status">
-      <h6>異常狀態</h6>
+      <h6>狀態說明</h6>
       <div class="bigBox">
         <div class="box">AB 點 (3min)</div>
         <div class="box">定位 V</div>
+        <div class="box">ACC ON 無車速</div>
         <div class="box">補傳 (3min)</div>
         <div class="box">熄火</div>
         <div class="box">30 筆明細</div>
-        <div class="box">ACC ON 無車速</div>
       </div>
     </div>
   </div>
