@@ -2,7 +2,7 @@
 class Log
 {
   // db stuff
-  private $conn;
+  public $conn;
   private $table = "f_log_data_";
 
   // log properties
@@ -61,4 +61,19 @@ class Log
 
     return $stmt;
   }
+
+  // public function __destruct()
+  // {
+  //   $this->conn = null;
+  //   print_r($this->conn);
+  // }
 }
+
+// include_once "../conf.php";
+
+// $database = new Database();
+// $database->connectOption(1);
+// $db = $database->connect();
+// $test = new Log($db);
+// $result = $test->getLog();
+// print_r($test);

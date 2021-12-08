@@ -44,6 +44,7 @@ function today()
   </div>
 </form>
 
+<!-- statistic -->
 <div class="container text-white-50">
   <div class="row">
     <div class="col statistic">

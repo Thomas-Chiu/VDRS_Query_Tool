@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>封包查詢工具</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body class="bg-dark">
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <a class="navbar-brand" href="./index.html">封包查詢工具</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#nav_menu"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="nav_menu" class="navbar-collapse collapse">
+        <ul class="navbar-nav m-auto text-white-50">
+          <li class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              id="log"
+              name="queryType"
+              value="log"
+              class="custom-control-input"
+              checked
+            />
+            <label class="custom-control-label" for="log">LOG</label>
+          </li>
+          <li class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              id="data"
+              name="queryType"
+              value="data"
+              class="custom-control-input"
+            />
+            <label class="custom-control-label" for="data">DATA</label>
+          </li>
+          <li class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              id="chk"
+              name="queryType"
+              value="chk"
+              class="custom-control-input"
+            />
+            <label class="custom-control-label" for="chk">CHK</label>
+          </li>
+          <li id="btn_toggle">
+            <i class="bi bi-toggle-off"></i>
+            <span> 淺色模式 </span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- inputGroup -->
+    <form action="" method="post">
+      <div class="container text-white-50">
+        <div class="row">
+          <div class="col">
+            <label for="dbOption">選擇資料庫</label>
+            <select id="dbOption" name="dbOption">
+              <option value="1" selected>47 VDRS</option>
+              <option value="2">50 燒機</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="busId">BUS ID</label>
+            <input
+              id="busId"
+              type="text"
+              name="busId"
+              placeholder="車牌號碼"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="startDate">起始時間</label>
+            <input id="startDate" name="startDate" type="date" required />
+            <input
+              id="startTime"
+              name="startTime"
+              type="time"
+              step="1"
+              value="00:00:00"
+              required
+            />
+          </div>
+          <div class="col">
+            <label for="endDate">結束時間</label>
+            <input id="endDate" name="endDate" type="date" required />
+            <input
+              id="endTime"
+              name="endTime"
+              type="time"
+              step="1"
+              value="23:59:59"
+              required
+            />
+          </div>
+          <div class="col">
+            <label>查詢</label>
+            <input
+              id="btn_submit"
+              type="submit"
+              value="送出"
+              class="btn btn-warning"
+            />
+            <input type="reset" value="取消" class="btn btn-outline-warning" />
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- statistic -->
+    <div class="container text-white-50">
+      <div class="row">
+        <div class="col statistic">
+          <h6>數據統計</h6>
+          <div class="row">
+            <div class="col">封包數/總筆數</div>
+            <div class="col">AB 點次數</div>
+            <div class="col">
+              定位 V <br />
+              (包數/比率)
+            </div>
+            <div class="col">
+              補傳 <br />
+              (包數/比率)
+            </div>
+            <div class="col">
+              ACC ON 無車速 <br />
+              (包數/比率)
+            </div>
+            <div class="col">掉包率</div>
+          </div>
+          <div class="row result">
+            <div class="col">0</div>
+            <div class="col">0</div>
+            <div class="col">0</div>
+            <div class="col">0</div>
+            <div class="col">0</div>
+            <div
+              class="col badge badge-warning"
+              data-toggle="modal"
+              data-target="#lostCount_table"
+            >
+              0
+            </div>
+          </div>
+        </div>
+        <div class="col status">
+          <h6>狀態說明</h6>
+          <div class="bigBox">
+            <div class="box">AB 點 (3min)</div>
+            <div class="box">定位 V</div>
+            <div class="box">ACC ON 無車速</div>
+            <div class="box">補傳 (3min)</div>
+            <div class="box">熄火</div>
+            <div class="box">30 筆明細</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="lostCount_table" class="modal fade">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white-50">
+              LOG 掉包率明細 <small>(末筆資料視為末趟 ACC OFF)</small>
+            </h5>
+          </div>
+          <div class="modal-body">
+            <table class="table table-sm table-bordered table-hover">
+              <thead
+                id="lostCount_table_head"
+                class="thead-light text-center sticky-top"
+              >
+                <tr>
+                  <th scope="col">ACC ON</th>
+                  <th scope="col">ACC OFF</th>
+                  <th scope="col">區段時間</th>
+                  <th scope="col">預計收到筆數</th>
+                  <th scope="col">實際收到筆數</th>
+                  <th scope="col">差異筆數</th>
+                  <th scope="col">資料遺失率</th>
+                </tr>
+              </thead>
+              <tbody class="text-center text-white lostCount-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- table -->
+    <table class="table table-sm table-bordered table-hover">
+      <thead id="log_table_head" class="thead-light text-center sticky-top">
+        <tr>
+          <th scope="col">IMEI</th>
+          <th scope="col">BUS ID</th>
+          <th scope="col">IMSI</th>
+          <th scope="col">司機編號</th>
+          <th scope="col">原始時間</th>
+          <th scope="col">接收時間</th>
+          <th scope="col">GPS</th>
+          <th scope="col">CSQ</th>
+          <th scope="col">衛星數</th>
+          <th scope="col">累計里程</th>
+          <th scope="col">經度</th>
+          <th scope="col">緯度</th>
+          <th scope="col">方向角</th>
+          <th scope="col">車速</th>
+          <th scope="col">轉速</th>
+          <th scope="col">GPS車速</th>
+          <th scope="col">IO</th>
+          <th scope="col">狀態</th>
+        </tr>
+      </thead>
+
+      <thead id="data_table_head" class="thead-light text-center sticky-top">
+        <tr>
+          <th scope="col">IMEI</th>
+          <th scope="col">BUS ID</th>
+          <th scope="col">IMSI</th>
+          <th scope="col">原始時間</th>
+          <th scope="col">接收時間</th>
+          <th scope="col">GPS</th>
+          <th scope="col">經度</th>
+          <th scope="col">緯度</th>
+          <th scope="col">方向角</th>
+          <th scope="col">車速</th>
+          <th scope="col">累計里程</th>
+          <th scope="col">轉速</th>
+          <th scope="col">司機編號</th>
+          <th scope="col">CSQ</th>
+          <th scope="col">衛星數</th>
+          <th scope="col">IO</th>
+          <th scope="col">事件代碼</th>
+          <th scope="col">事件訊息</th>
+        </tr>
+      </thead>
+
+      <thead id="chk_table_head" class="thead-light text-center sticky-top">
+        <tr>
+          <th scope="col">IMEI</th>
+          <th scope="col">BUS ID</th>
+          <th scope="col">IMSI</th>
+          <th scope="col">接收時間</th>
+          <th scope="col">機型</th>
+          <th scope="col">韌體版號</th>
+          <th scope="col">CSQ</th>
+          <th scope="col">GPS</th>
+          <th scope="col">ACC</th>
+          <th scope="col">APN</th>
+          <th scope="col">IP:PORT</th>
+          <th scope="col">DNS:PORT</th>
+          <th scope="col">封包正常</th>
+          <th scope="col">封包待機</th>
+          <th scope="col">速度觸發</th>
+          <th scope="col">速度增益</th>
+          <th scope="col">轉速觸發</th>
+          <th scope="col">轉速增益</th>
+        </tr>
+      </thead>
+
+      <tbody class="text-center text-white list-table"></tbody>
+    </table>
+
+    <!-- loader -->
+    <div class="loader">
+      <img src="../loader.svg" alt="Loading..." />
+    </div>
+
+    <!-- goTop -->
+    <div id="gotop">˄</div>
+
+    <script src="./js/lib/jquery-3.6.0.min.js"></script>
+    <script src="./js/lib/bootstrap.bundle.min.js"></script>
+    <!-- <script src="./js/lib/sweetalert2.all.min.js"></script> -->
+    <!-- <script src="./js/alert.js"></script> -->
+    <script type="module" src="./js/ajax.js"></script>
+    <script src="./js/toggle.js"></script>
+    <script src="./js/getDate.js"></script>
+  </body>
+</html>
